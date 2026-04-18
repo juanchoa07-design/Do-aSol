@@ -338,20 +338,82 @@ main { padding-top: var(--header-h); }
 
 .hero-image-wrap {
   position: absolute;
-  right: 5%;
+  right: 4%;
   top: 50%;
   transform: translateY(-50%);
-  width: min(380px, 40vw);
-  pointer-events: none;
+  width: min(520px, 46vw);
   z-index: 1;
 }
-.hero-image-card {
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 24px;
-  padding: 16px;
+
+/* ── Carousel ── */
+.carousel {
+  position: relative;
+  border-radius: 22px;
   overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+.carousel-track {
+  position: relative;
+  overflow: hidden;
+  height: 360px;
+}
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+}
+.carousel-slide.active {
+  transform: translateX(0);
+}
+.carousel-slide.leaving {
+  transform: translateX(-100%);
+}
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0,0,0,0.42);
+  border: none;
+  color: #fff;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--trans);
+  pointer-events: all;
+}
+.carousel-btn:hover { background: rgba(0,0,0,0.68); }
+.carousel-prev { left: 12px; }
+.carousel-next { right: 12px; }
+.carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  pointer-events: all;
+}
+.dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  cursor: pointer;
+  transition: background var(--trans), transform var(--trans);
+}
+.dot.active {
+  background: var(--yellow);
+  transform: scale(1.25);
 }
 .hero-image-card .big-icon { font-size: 5rem; }
 .hero-image-card p {
@@ -372,13 +434,6 @@ main { padding-top: var(--header-h); }
   height: auto;
   object-fit: contain;
   border-radius: 12px;
-}
-.hero-product-img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 16px;
-  display: block;
 }
 
 .hero-image-card .pill {
@@ -928,6 +983,104 @@ footer {
 @keyframes pulse {
   0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
   50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.70), 0 0 0 8px rgba(37,211,102,0.12); }
+}
+
+/* ============================================================
+   PRODUCT MODAL
+============================================================ */
+.pmodal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.pmodal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.pmodal {
+  background: var(--white);
+  border-radius: 22px;
+  overflow: hidden;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+  transform: translateY(32px) scale(0.96);
+  transition: transform 0.28s ease;
+  position: relative;
+}
+.pmodal-overlay.open .pmodal {
+  transform: translateY(0) scale(1);
+}
+.pmodal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: rgba(0,0,0,0.14);
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--trans);
+  z-index: 10;
+}
+.pmodal-close:hover { background: rgba(0,0,0,0.26); }
+.pmodal-img-wrap {
+  background: var(--gray-light);
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pmodal-img-wrap img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  padding: 20px;
+  display: block;
+}
+.pmodal-body {
+  padding: 26px 28px 32px;
+}
+.pmodal-body h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+.pmodal-body p {
+  color: var(--gray);
+  font-size: 0.93rem;
+  line-height: 1.70;
+  margin-bottom: 26px;
+}
+.pmodal-btn-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px;
+  border-radius: 30px;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+  transition: transform var(--trans), box-shadow var(--trans);
+  text-decoration: none;
+}
+.pmodal-btn-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(37,211,102,0.52);
 }
 
 /* ============================================================

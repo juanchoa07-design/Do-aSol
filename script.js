@@ -58,6 +58,110 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+// ── Product Modal ─────────────────────────────────────────────
+(function () {
+  const overlay  = document.getElementById('product-modal');
+  if (!overlay) return;
+
+  const imgEl    = document.getElementById('pmodal-img');
+  const nameEl   = document.getElementById('pmodal-name');
+  const descEl   = document.getElementById('pmodal-desc');
+  const waBtn    = document.getElementById('pmodal-wa');
+  const closeBtn = overlay.querySelector('.pmodal-close');
+
+  function openModal(name, desc, imgSrc) {
+    imgEl.src        = imgSrc;
+    imgEl.alt        = name;
+    nameEl.textContent = name;
+    descEl.textContent = desc;
+    waBtn.href = `https://wa.me/59892747716?text=${encodeURIComponent(`Hola Doña Sol! 👋 Quiero comprar: *${name}*`)}`;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      const name = card.querySelector('.product-card-name').textContent.trim();
+      const desc = card.querySelector('.product-card-desc').textContent.trim();
+      const img  = card.querySelector('.product-card-img img').getAttribute('src');
+      openModal(name, desc, img);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+
+// ── Hero Carousel ─────────────────────────────────────────────
+(function () {
+  const carousel = document.getElementById('hero-carousel');
+  if (!carousel) return;
+
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const dots   = carousel.querySelectorAll('.dot');
+  let current  = 0;
+  let animating = false;
+  let timer;
+
+  function goTo(idx, dir) {
+    if (animating) return;
+    const next = (idx + slides.length) % slides.length;
+    if (next === current) return;
+    animating = true;
+
+    const incoming = slides[next];
+    const outgoing = slides[current];
+
+    // Position incoming off-screen in the right direction
+    incoming.style.transform = dir === 'prev' ? 'translateX(-100%)' : 'translateX(100%)';
+    incoming.classList.add('active');
+
+    // Force reflow so transition plays
+    incoming.getBoundingClientRect();
+
+    // Slide both
+    incoming.style.transform = 'translateX(0)';
+    outgoing.style.transform = dir === 'prev' ? 'translateX(100%)' : 'translateX(-100%)';
+
+    dots[current].classList.remove('active');
+    dots[next].classList.add('active');
+
+    setTimeout(() => {
+      outgoing.classList.remove('active');
+      outgoing.style.transform = '';
+      incoming.style.transform = '';
+      current = next;
+      animating = false;
+    }, 520);
+  }
+
+  function next() { goTo(current + 1, 'next'); }
+  function prev() { goTo(current - 1, 'prev'); }
+
+  function startAuto() { timer = setInterval(next, 3500); }
+  function resetAuto()  { clearInterval(timer); startAuto(); }
+
+  // Init first slide
+  slides[0].style.transform = 'translateX(0)';
+
+  carousel.querySelector('.carousel-next').addEventListener('click', () => { next(); resetAuto(); });
+  carousel.querySelector('.carousel-prev').addEventListener('click', () => { prev(); resetAuto(); });
+  dots.forEach(dot => dot.addEventListener('click', () => {
+    const idx = +dot.dataset.idx;
+    goTo(idx, idx > current ? 'next' : 'prev');
+    resetAuto();
+  }));
+
+  startAuto();
+})();
+
 // ── Contact form → WhatsApp ───────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();
