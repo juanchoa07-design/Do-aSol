@@ -350,11 +350,8 @@ main { padding-top: var(--header-h); }
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 24px;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
+  padding: 16px;
+  overflow: hidden;
 }
 .hero-image-card .big-icon { font-size: 5rem; }
 .hero-image-card p {
@@ -375,6 +372,13 @@ main { padding-top: var(--header-h); }
   height: auto;
   object-fit: contain;
   border-radius: 12px;
+}
+.hero-product-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
 }
 
 .hero-image-card .pill {
@@ -524,17 +528,52 @@ section { padding: 80px 24px; }
   line-height: 1.55;
   margin-bottom: 12px;
 }
-.product-card-tag {
-  display: inline-block;
-  background: rgba(198,40,40,0.09);
-  color: var(--red);
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 15px;
-}
 
 .hidden { display: none !important; }
+
+/* ============================================================
+   GALLERY SECTION
+============================================================ */
+#galeria {
+  padding: 0;
+  background: var(--dark);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 4px;
+}
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
+  padding: 32px 20px 18px;
+  transform: translateY(100%);
+  transition: transform 0.35s ease;
+}
+.gallery-item:hover .gallery-overlay { transform: translateY(0); }
+.gallery-overlay p {
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item { aspect-ratio: 16/9; }
+}
 
 /* ============================================================
    ABOUT SECTION
@@ -554,17 +593,17 @@ section { padding: 80px 24px; }
 .about-visual {
   position: relative;
 }
-.about-main-card {
-  background: linear-gradient(135deg, var(--red-dark), var(--red));
+.about-photo-wrap {
   border-radius: 20px;
-  padding: 40px 32px;
-  color: var(--white);
-  text-align: center;
+  overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
-.about-main-card .main-icon { font-size: 4rem; margin-bottom: 16px; }
-.about-main-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
-.about-main-card p { font-size: 0.9rem; color: rgba(255,255,255,0.80); line-height: 1.65; }
+.about-photo {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
 
 .about-badge-card {
   position: absolute;
