@@ -49,26 +49,6 @@ window.addEventListener('scroll', () => {
   setActiveLink();
 });
 
-// ── Product category filter ───────────────────────────────────
-const tabBtns   = document.querySelectorAll('.tab-btn');
-const prodCards = document.querySelectorAll('.product-card');
-
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const cat = btn.dataset.cat;
-    prodCards.forEach(card => {
-      if (cat === 'all' || card.dataset.cat === cat) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
-    });
-  });
-});
-
 // ── Scroll reveal animations ──────────────────────────────────
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
