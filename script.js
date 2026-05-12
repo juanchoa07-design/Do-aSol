@@ -162,6 +162,26 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   startAuto();
 })();
 
+// ── Category filter ───────────────────────────────────────────
+(function () {
+  const filterBar = document.getElementById('filter-bar');
+  if (!filterBar) return;
+
+  filterBar.addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+
+    filterBar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.product-card').forEach(card => {
+      const match = filter === 'todos' || card.dataset.category === filter;
+      card.classList.toggle('hidden', !match);
+    });
+  });
+})();
+
 // ── Contact form → WhatsApp ───────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();

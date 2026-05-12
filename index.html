@@ -149,10 +149,19 @@
           </div>
         </div>
 
-<div class="products-grid" id="products-grid">
+<div class="category-tabs" id="filter-bar">
+          <button class="tab-btn active" data-filter="todos">Todos</button>
+          <button class="tab-btn" data-filter="hogar">Hogar</button>
+          <button class="tab-btn" data-filter="lavanderia">Lavandería</button>
+          <button class="tab-btn" data-filter="pisos">Pisos</button>
+          <button class="tab-btn" data-filter="industrial">Industrial</button>
+          <button class="tab-btn" data-filter="papeles">Papeles</button>
+        </div>
+
+        <div class="products-grid" id="products-grid">
 
           <!-- HOGAR -->
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Multiuso.JPG" alt="Limpiador Multiuso" />
             </div>
@@ -162,7 +171,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Limpiavidrios.JPG" alt="Limpiavidrios" />
             </div>
@@ -172,7 +181,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Lavandina.JPG" alt="Lavandina" />
             </div>
@@ -182,7 +191,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/AmonioCuaternario.JPG" alt="Desinfectante Amonio Cuaternario" />
             </div>
@@ -192,7 +201,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Cremoso.JPG" alt="Limpiador Cremoso" />
             </div>
@@ -202,7 +211,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcoholengel.JPG" alt="Alcohol en Gel" />
             </div>
@@ -212,7 +221,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Desodorante.JPG" alt="Desodorante de Ambiente" />
             </div>
@@ -222,7 +231,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Jabon_para_manos-removebg-preview.png" alt="Jabón para Manos" />
             </div>
@@ -232,7 +241,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-category="hogar">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Rejillas.JPG" alt="Limpiador para Rejillas" />
             </div>
@@ -243,7 +252,7 @@
           </div>
 
           <!-- LAVANDERÍA -->
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-category="lavanderia">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Jabon%20Liquido.JPG" alt="Jabón Líquido para Ropa" />
             </div>
@@ -253,7 +262,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="lavanderia">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Ideal.JPG" alt="Ideal" />
             </div>
@@ -264,7 +273,7 @@
           </div>
 
           <!-- PISOS -->
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-category="pisos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Cera.JPG" alt="Cera para Pisos" />
             </div>
@@ -274,7 +283,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="pisos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Desengrasante.JPG" alt="Desengrasante" />
             </div>
@@ -285,7 +294,7 @@
           </div>
 
           <!-- INDUSTRIAL -->
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcohol.JPG" alt="Alcohol 70° y 96°" />
             </div>
@@ -295,7 +304,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Soda.JPG" alt="Soda Cáustica" />
             </div>
@@ -305,7 +314,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Hipoclorito.JPG" alt="Hipoclorito de Sodio" />
             </div>
@@ -315,7 +324,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Perfumador.JPG" alt="Perfumador Industrial" />
             </div>
@@ -325,7 +334,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Emulsion_Neumaticos-removebg-preview.png" alt="Emulsión para Neumáticos" />
             </div>
@@ -335,7 +344,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Emulsion_plasticos-removebg-preview.png" alt="Emulsión para Plásticos" />
             </div>
@@ -345,7 +354,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-category="industrial">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Mulcit-removebg-preview.png" alt="Mulcit" />
             </div>
@@ -355,13 +364,74 @@
             </div>
           </div>
 
-          <div class="product-card reveal">
+          <!-- PAPELES -->
+          <div class="product-card reveal" data-category="papeles">
             <div class="product-card-img">
-              <img src="Fotos%20Dona%20sol/Toalla-en-rollo-FIT-FUNDA.jpg" alt="Toalla en Rollo Jumbo 200" />
+              <img src="Fotos%20Dona%20sol/Jumbo%20200.jpg" alt="Jumbo 200" />
             </div>
             <div class="product-card-body">
               <div class="product-card-name">Jumbo 200</div>
               <div class="product-card-desc">Toalla en rollo de alta absorción. Ideal para uso profesional e industrial.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-1" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Toalla%20Intercalada%2020x23.jpg" alt="Toalla Intercalada 20x23" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Toalla Intercalada 20x23</div>
+              <div class="product-card-desc">Toalla interdoblada para dispensadores. Suave y de alta absorción.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-2" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Servilleta%20de%20Bocadillo.jpg" alt="Servilleta de Bocadillo" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Servilleta de Bocadillo</div>
+              <div class="product-card-desc">Servilleta compacta ideal para snacks y bocadillos. Económica y práctica.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-3" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Rollo%20Cocina%20200%20Hojas.webp" alt="Rollo Cocina 200 Hojas" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Rollo Cocina 200 Hojas</div>
+              <div class="product-card-desc">200 hojas por rollo. Alta absorción para uso doméstico y gastronómico.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-1" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Servilleta%20de%20Mesa%2030x29%2C5.webp" alt="Servilleta de Mesa 30x29,5" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Servilleta de Mesa 30x29,5</div>
+              <div class="product-card-desc">Servilleta grande para mesa. Ideal para restaurantes y eventos.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-2" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Pepel%20Higenico%20Doble%20Hoja.jpg" alt="Papel Higiénico Doble Hoja" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Papel Higiénico Doble Hoja</div>
+              <div class="product-card-desc">Papel doble hoja suave y resistente para uso institucional y doméstico.</div>
+            </div>
+          </div>
+
+          <div class="product-card reveal reveal-delay-3" data-category="papeles">
+            <div class="product-card-img">
+              <img src="Fotos%20Dona%20sol/Papel%20Higenico%20Jumbo%20500.png" alt="Papel Higiénico Jumbo 500" />
+            </div>
+            <div class="product-card-body">
+              <div class="product-card-name">Papel Higiénico Jumbo 500</div>
+              <div class="product-card-desc">Rollo jumbo de 500 metros. Para baños de alto tráfico.</div>
             </div>
           </div>
 

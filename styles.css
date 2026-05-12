@@ -522,6 +522,10 @@ section { padding: 80px 24px; }
   color: var(--white);
 }
 
+.product-card.hidden {
+  display: none;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
