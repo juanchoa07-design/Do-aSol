@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doña Sol – Productos de Limpieza</title>
+  <title>Doña Sol – Catálogo de Productos</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -23,24 +23,17 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a href="#hero" class="nav-link">
-        <span class="nav-icon">🏠</span> Inicio
+      <a href="#productos" class="nav-link">
+        <span class="nav-icon">🧹</span> Catálogo
       </a>
-      <a href="catalogo.html" class="nav-link">
-        <span class="nav-icon">🧹</span> Nuestros Productos
-      </a>
-      <a href="#nosotros" class="nav-link">
-        <span class="nav-icon">🏭</span> Acerca de Nosotros
-      </a>
-      <a href="#ventajas" class="nav-link">
-        <span class="nav-icon">⭐</span> ¿Por qué elegirnos?
-      </a>
-      <a href="#contacto" class="nav-link">
-        <span class="nav-icon">📞</span> Contacto
-      </a>
-      <div class="sidebar-divider"></div>
       <a href="https://wa.me/59892747716" target="_blank" class="nav-link">
         <span class="nav-icon">💬</span> WhatsApp
+      </a>
+      <a href="tel:24183045" class="nav-link">
+        <span class="nav-icon">📞</span> 2418-3045
+      </a>
+      <a href="mailto:donasol@adinet.com.uy" class="nav-link">
+        <span class="nav-icon">✉️</span> donasol@adinet.com.uy
       </a>
     </nav>
 
@@ -63,7 +56,7 @@
       <img src="Fotos%20Dona%20sol/Logo.JPG" alt="Doña Sol" class="header-logo-img" />
     </div>
 
-    <a href="#contacto" class="header-cta">Consultar</a>
+    <a href="https://wa.me/59892747716" target="_blank" class="header-cta">Consultar</a>
   </header>
 
   <!-- ============================================================
@@ -71,85 +64,19 @@
   ============================================================ -->
   <main>
 
-    <!-- HERO -->
-    <section id="hero">
-      <div class="hero-content">
-        <div class="hero-badge">✨ Fábrica uruguaya desde hace décadas</div>
-        <h1 class="hero-title">
-          Limpieza <span class="accent">profesional</span><br/>
-          para cada espacio
-        </h1>
-        <p class="hero-subtitle">
-          Fabricamos productos de limpieza para el hogar, comercios e industria.
-          Calidad garantizada, precios directos de fábrica y entrega en Montevideo.
-        </p>
-        <div class="hero-actions">
-          <a href="catalogo.html" class="btn-primary">Ver productos</a>
-          <a href="#contacto" class="btn-secondary">Contactarnos</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-num">20+</span>
-            <span class="stat-label">Productos</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">100%</span>
-            <span class="stat-label">Fabricación propia</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">UY</span>
-            <span class="stat-label">Producto nacional</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-image-wrap">
-        <div class="carousel" id="hero-carousel">
-          <button class="carousel-btn carousel-prev" aria-label="Anterior">&#8249;</button>
-          <div class="carousel-track">
-            <div class="carousel-slide active">
-              <img src="Fotos%20Dona%20sol/descarga.jfif" alt="Productos Doña Sol" />
-            </div>
-            <div class="carousel-slide">
-              <img src="Fotos%20Dona%20sol/descarga%20(1).jfif" alt="Productos Doña Sol" />
-            </div>
-            <div class="carousel-slide">
-              <img src="Fotos%20Dona%20sol/descarga%20(2).jfif" alt="Productos Doña Sol" />
-            </div>
-            <div class="carousel-slide">
-              <img src="Fotos%20Dona%20sol/descarga%20(3).jfif" alt="Productos Doña Sol" />
-            </div>
-            <div class="carousel-slide">
-              <img src="Fotos%20Dona%20sol/descarga%20(4).jfif" alt="Productos Doña Sol" />
-            </div>
-          </div>
-          <button class="carousel-btn carousel-next" aria-label="Siguiente">&#8250;</button>
-          <div class="carousel-dots">
-            <span class="dot active" data-idx="0"></span>
-            <span class="dot" data-idx="1"></span>
-            <span class="dot" data-idx="2"></span>
-            <span class="dot" data-idx="3"></span>
-            <span class="dot" data-idx="4"></span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
+    <!-- CATALOG -->
     <section id="productos">
       <div class="section-inner">
-        <div class="products-header">
-          <div>
-            <div class="section-label reveal">Catálogo</div>
-            <h2 class="section-title reveal reveal-delay-1">Nuestros <span class="accent">Productos</span></h2>
-            <p class="section-desc reveal reveal-delay-2">
-              Desde el hogar hasta la industria, tenemos el producto ideal para cada necesidad de limpieza.
-            </p>
-          </div>
+
+        <div class="catalog-hero">
+          <div class="section-label">Catálogo</div>
+          <h1 class="section-title">Nuestros <span class="accent">Productos</span></h1>
+          <p class="section-desc">
+            Productos de limpieza para el hogar, comercios e industria. Fabricación propia, precios directos de fábrica.
+          </p>
         </div>
 
-<div class="category-tabs" id="filter-bar">
+        <div class="category-tabs" id="filter-bar">
           <button class="tab-btn active" data-filter="todos">Todos</button>
           <button class="tab-btn" data-filter="hogar">Hogar</button>
           <button class="tab-btn" data-filter="lavanderia">Lavandería</button>
@@ -439,176 +366,6 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="nosotros">
-      <div class="section-inner">
-        <div class="about-grid">
-          <div class="about-visual reveal">
-            <div class="about-photo-wrap">
-              <img src="Fotos%20Dona%20sol/portada+limpieza-468w.webp" alt="Productos Doña Sol en uso" class="about-photo" />
-            </div>
-            <div class="about-badge-card">
-              <div class="badge-icon">🇺🇾</div>
-              <div>
-                <p>100% Uruguayo</p>
-                <p>Producto Nacional</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="about-content">
-            <div class="section-label reveal">Quiénes somos</div>
-            <h2 class="section-title reveal reveal-delay-1">
-              Doña Sol,<br/><span class="accent">calidad que limpia</span>
-            </h2>
-            <p class="section-desc reveal reveal-delay-2">
-              Somos <strong>Doña Sol de Levin y Levin</strong>, una empresa familiar
-              con años de experiencia fabricando productos de limpieza industriales,
-              comerciales y del hogar en Montevideo, Uruguay.
-            </p>
-
-            <div class="values-list">
-              <div class="value-item reveal reveal-delay-2">
-                <div class="value-icon">🏆</div>
-                <div>
-                  <h4>Calidad garantizada</h4>
-                  <p>Cada lote pasa controles de calidad antes de salir de fábrica.</p>
-                </div>
-              </div>
-              <div class="value-item reveal reveal-delay-3">
-                <div class="value-icon">🚚</div>
-                <div>
-                  <h4>Entrega en Montevideo</h4>
-                  <p>Llevamos tus pedidos directamente a tu domicilio o negocio.</p>
-                </div>
-              </div>
-              <div class="value-item reveal reveal-delay-4">
-                <div class="value-icon">💰</div>
-                <div>
-                  <h4>Precios de fábrica</h4>
-                  <p>Sin intermediarios. Comprás directo al fabricante.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY US -->
-    <section id="ventajas">
-      <div class="section-inner">
-        <div class="section-label">Ventajas</div>
-        <h2 class="section-title">¿Por qué elegir <span class="accent" style="color:var(--yellow)">Doña Sol</span>?</h2>
-        <p class="section-desc">Más de 25 productos fabricados con los mejores insumos, disponibles para hogares, comercios e industrias.</p>
-
-        <div class="features-grid">
-          <div class="feature-card reveal">
-            <div class="feature-icon">🧪</div>
-            <h3>Formulación propia</h3>
-            <p>Desarrollamos nuestras propias fórmulas para lograr el mejor rendimiento en cada producto.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1">
-            <div class="feature-icon">📦</div>
-            <h3>Venta por mayor y menor</h3>
-            <p>Podés comprar desde una unidad hasta grandes volúmenes para tu empresa.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-2">
-            <div class="feature-icon">⚡</div>
-            <h3>Atención rápida</h3>
-            <p>Respondemos por WhatsApp, teléfono y email en horario de oficina.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-3">
-            <div class="feature-icon">🌿</div>
-            <h3>Productos seguros</h3>
-            <p>Formulaciones diseñadas para ser efectivas y seguras en superficies del hogar y la industria.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contacto">
-      <div class="section-inner">
-        <div class="section-label reveal">Contacto</div>
-        <h2 class="section-title reveal reveal-delay-1">Hablemos de tu <span class="accent">pedido</span></h2>
-        <p class="section-desc reveal reveal-delay-2">
-          Completá el formulario o contactanos directamente. Estamos disponibles de lunes a viernes.
-        </p>
-
-        <div class="contact-grid" style="margin-top: 44px;">
-          <div class="contact-info">
-            <div class="contact-items">
-              <div class="contact-item reveal">
-                <div class="contact-item-icon">📍</div>
-                <div class="contact-item-text">
-                  <p>Dirección</p>
-                  <p>Lauro Müller 2008, Montevideo</p>
-                </div>
-              </div>
-              <div class="contact-item reveal reveal-delay-1">
-                <div class="contact-item-icon">📞</div>
-                <div class="contact-item-text">
-                  <p>Teléfono</p>
-                  <p>2418-3045 · 2418-3003</p>
-                </div>
-              </div>
-              <div class="contact-item reveal reveal-delay-2">
-                <div class="contact-item-icon">📱</div>
-                <div class="contact-item-text">
-                  <p>WhatsApp</p>
-                  <p>092 747 716</p>
-                </div>
-              </div>
-              <div class="contact-item reveal reveal-delay-3">
-                <div class="contact-item-icon">✉️</div>
-                <div class="contact-item-text">
-                  <p>Email</p>
-                  <p>donasol@adinet.com.uy</p>
-                </div>
-              </div>
-              <div class="contact-item reveal reveal-delay-4">
-                <div class="contact-item-icon">🕐</div>
-                <div class="contact-item-text">
-                  <p>Horario</p>
-                  <p>Lun–Vie · 8:00 – 17:00</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="contact-form reveal reveal-delay-1">
-            <h3>Envianos un mensaje</h3>
-            <form id="contact-form" onsubmit="handleSubmit(event)">
-              <div class="form-group">
-                <label for="nombre">Nombre completo</label>
-                <input type="text" id="nombre" placeholder="Tu nombre" required />
-              </div>
-              <div class="form-group">
-                <label for="telefono">Teléfono / WhatsApp</label>
-                <input type="tel" id="telefono" placeholder="099 000 000" />
-              </div>
-              <div class="form-group">
-                <label for="interes">Tipo de compra</label>
-                <select id="interes">
-                  <option value="">Seleccioná una opción</option>
-                  <option value="hogar">Para el hogar</option>
-                  <option value="comercio">Para mi comercio</option>
-                  <option value="industria">Para industria</option>
-                  <option value="otro">Otro</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" placeholder="Contanos qué necesitás..."></textarea>
-              </div>
-              <button type="submit" class="btn-submit">Enviar mensaje ✉️</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <!-- PRODUCT MODAL -->
@@ -622,7 +379,7 @@
         <h2 id="pmodal-name"></h2>
         <p id="pmodal-desc"></p>
         <a id="pmodal-wa" href="#" target="_blank" class="pmodal-btn-wa">
-          💬 Comprar por WhatsApp
+          💬 Consultar por WhatsApp
         </a>
       </div>
     </div>
@@ -639,22 +396,20 @@
           <p>Fábrica de productos de limpieza para el hogar, comercios e industria. Montevideo, Uruguay.</p>
         </div>
         <div class="footer-col">
-          <h4>Navegación</h4>
-          <ul>
-            <li><a href="#hero">Inicio</a></li>
-            <li><a href="#productos">Productos</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="#ventajas">Ventajas</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
           <h4>Contacto</h4>
           <ul>
             <li><a href="tel:24183045">2418-3045</a></li>
             <li><a href="tel:24183003">2418-3003</a></li>
-            <li><a href="https://wa.me/59892747716" target="_blank">WhatsApp</a></li>
+            <li><a href="https://wa.me/59892747716" target="_blank">WhatsApp: 092 747 716</a></li>
             <li><a href="mailto:donasol@adinet.com.uy">donasol@adinet.com.uy</a></li>
+            <li>Lun–Vie · 8:00 – 17:00</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Dirección</h4>
+          <ul>
+            <li>Lauro Müller 2008</li>
+            <li>Montevideo, Uruguay</li>
           </ul>
         </div>
       </div>
@@ -663,7 +418,6 @@
         <div class="social-links">
           <a href="https://wa.me/59892747716" target="_blank" title="WhatsApp">💬</a>
           <a href="mailto:donasol@adinet.com.uy" title="Email">✉️</a>
-          <a href="https://instagram.com" target="_blank" title="Instagram">📷</a>
         </div>
       </div>
     </div>
