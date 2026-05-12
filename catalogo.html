@@ -6,97 +6,30 @@
   <title>Catálogo – Doña Sol</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Catalog-specific overrides ── */
-    #cat-hero {
-      background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 55%, #D84315 100%);
-      padding: 60px 24px 50px;
+    /* Banner de catálogo personalizado */
+    #cliente-banner {
+      background: rgba(0,0,0,0.35);
+      color: #fff;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      padding: 11px 24px;
+      font-size: 0.88rem;
+      line-height: 1.5;
     }
-    #cat-hero::before {
-      content: '';
-      position: absolute;
-      width: 400px; height: 400px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-      top: -120px; right: -80px;
-      pointer-events: none;
-    }
-    .cat-hero-back {
+    #cliente-banner strong { color: #FFD600; }
+
+    /* Botón de volver — solo visible en catálogo normal (sin ?c=) */
+    .cat-back {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       color: rgba(255,255,255,0.75);
       font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 24px;
-      transition: color var(--trans);
+      margin-bottom: 20px;
+      transition: color .2s;
     }
-    .cat-hero-back:hover { color: var(--yellow); }
-    .cat-hero-back::before { content: '←'; font-size: 1rem; }
-    #cat-hero h1 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900;
-      color: var(--white);
-      margin-bottom: 10px;
-    }
-    #cat-hero h1 span { color: var(--yellow); }
-    #cat-hero p {
-      color: rgba(255,255,255,0.78);
-      font-size: 1rem;
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    #catalogo-section { background: var(--red-dark); padding: 60px 24px 80px; }
-    .catalogo-inner { max-width: 1200px; margin: 0 auto; }
-
-    .catalogo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 22px;
-    }
-
-    .cat-cta {
-      text-align: center;
-      margin-top: 56px;
-    }
-    .cat-cta p {
-      color: var(--gray);
-      font-size: 1rem;
-      margin-bottom: 18px;
-    }
-    .cat-cta .btn-wa {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #25D366;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 14px 30px;
-      border-radius: 30px;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
-      transition: transform var(--trans), box-shadow var(--trans);
-    }
-    .cat-cta .btn-wa:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(37,211,102,0.50);
-    }
-
-    /* Banner de catálogo personalizado */
-    #cliente-banner {
-      background: linear-gradient(90deg, #1A1A1A 0%, #2D2D2D 100%);
-      color: #fff;
-      text-align: center;
-      padding: 13px 24px;
-      font-size: 0.88rem;
-      line-height: 1.5;
-    }
-    #cliente-banner strong { color: #FFD600; }
-    #cliente-banner .banner-inner { max-width: 700px; margin: 0 auto; }
+    .cat-back:hover { color: var(--yellow); }
+    .cat-back::before { content: '←'; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -141,32 +74,34 @@
 
   <main>
 
-    <!-- HERO CATÁLOGO -->
-    <section id="cat-hero" style="margin-top: var(--header-h);">
-      <a href="index.html" class="cat-hero-back">Volver al inicio</a>
-      <h1>Nuestro <span>Catálogo</span></h1>
-      <p>Productos de limpieza para el hogar, comercios e industria. Fabricación propia, calidad garantizada.</p>
-    </section>
+    <!-- PRODUCTOS — misma estructura que index.html -->
+    <section id="productos">
+      <div class="section-inner">
 
-    <!-- BANNER CLIENTE PERSONALIZADO (oculto por defecto) -->
-    <div id="cliente-banner" style="display:none;">
-      <div class="banner-inner">
-        Catálogo personalizado para <strong id="cliente-banner-nombre"></strong>
-        · Los precios mostrados son los acordados con Doña Sol.
-      </div>
-    </div>
+        <!-- Banner cliente personalizado (oculto por defecto) -->
+        <div id="cliente-banner" style="display:none; margin: -40px -24px 32px; padding: 11px 24px;">
+          <div>Catálogo personalizado para <strong id="cliente-banner-nombre"></strong> · Los precios mostrados son los acordados con Doña Sol.</div>
+        </div>
 
-    <!-- GRILLA DE PRODUCTOS -->
-    <section id="catalogo-section">
-      <div class="catalogo-inner">
+        <!-- Volver al inicio (solo en catálogo normal) -->
+        <div id="cat-back-wrap">
+          <a href="index.html" class="cat-back">Volver al inicio</a>
+        </div>
 
-        <!-- Filtro de categorías -->
-        <div class="category-tabs" id="filter-bar" style="margin-bottom: 28px;">
+        <div class="catalog-hero">
+          <div class="section-label">Catálogo</div>
+          <h1 class="section-title">Nuestros <span class="accent">Productos</span></h1>
+          <p class="section-desc">
+            Productos de limpieza para el hogar, comercios e industria. Fabricación propia, calidad garantizada.
+          </p>
+        </div>
+
+        <div class="category-tabs" id="filter-bar">
           <button class="tab-btn active" data-filter="todos">Todos</button>
           <button class="tab-btn" data-filter="papeles">Papeles</button>
         </div>
 
-        <div class="catalogo-grid">
+        <div class="products-grid">
 
           <!-- ── LIMPIEZA ── -->
           <div class="product-card reveal" data-category="hogar" data-id="multiuso">
@@ -563,15 +498,8 @@
             </div>
           </div>
 
-        </div>
-
-        <div class="cat-cta">
-          <p>¿Necesitás un producto o querés hacer un pedido?</p>
-          <a href="https://wa.me/59892747716" target="_blank" class="btn-wa">
-            💬 Consultanos por WhatsApp
-          </a>
-        </div>
-      </div>
+        </div><!-- /products-grid -->
+      </div><!-- /section-inner -->
     </section>
 
   </main>
@@ -588,7 +516,7 @@
         <p id="pmodal-desc"></p>
         <span id="pmodal-volume" class="product-card-volume" style="display:none;"></span>
         <a id="pmodal-wa" href="#" target="_blank" class="pmodal-btn-wa">
-          💬 Comprar por WhatsApp
+          💬 Consultar por WhatsApp
         </a>
       </div>
     </div>
@@ -644,20 +572,25 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase-init.js"></script>
 
-  <!-- ── Precios personalizados por cliente ── -->
+  <!-- ── Precios + ajustes para catálogo personalizado ── -->
   <script>
   (function () {
     var params      = new URLSearchParams(window.location.search);
     var clienteSlug = params.get('c');
-    if (!clienteSlug) return;
 
-    // Ocultar menú hamburguesa y sidebar en catálogos personalizados
-    var btnMenu = document.getElementById('btn-menu');
-    var sidebar = document.getElementById('sidebar');
-    var overlay = document.getElementById('overlay');
-    if (btnMenu) btnMenu.style.display = 'none';
-    if (sidebar) sidebar.style.display = 'none';
-    if (overlay) overlay.style.display = 'none';
+    if (clienteSlug) {
+      // Ocultar navegación en catálogos de clientes
+      var btnMenu     = document.getElementById('btn-menu');
+      var sidebar     = document.getElementById('sidebar');
+      var overlay     = document.getElementById('overlay');
+      var catBackWrap = document.getElementById('cat-back-wrap');
+      if (btnMenu)     btnMenu.style.display     = 'none';
+      if (sidebar)     sidebar.style.display     = 'none';
+      if (overlay)     overlay.style.display     = 'none';
+      if (catBackWrap) catBackWrap.style.display = 'none';
+    } else {
+      return; // sin ?c= no hay precios que cargar
+    }
 
     var PRODUCTOS_IDS = [
       'multiuso','limpiavidrios','lavandina','desinfectante','cremoso',
@@ -679,8 +612,8 @@
 
         var bannerEl       = document.getElementById('cliente-banner');
         var bannerNombreEl = document.getElementById('cliente-banner-nombre');
-        if (bannerEl)       bannerEl.style.display       = '';
-        if (bannerNombreEl) bannerNombreEl.textContent   = data.nombre;
+        if (bannerEl)       bannerEl.style.display     = '';
+        if (bannerNombreEl) bannerNombreEl.textContent = data.nombre;
 
         var preciosCliente = data.precios || {};
 
