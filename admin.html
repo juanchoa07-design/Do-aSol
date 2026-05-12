@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin – Doña Sol</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F4F4F5; color: #18181B; min-height: 100vh; }
+    a { text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    input  { font-family: inherit; }
+
+    /* ── PANTALLA DE LOGIN ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #B71C1C 0%, #C62828 50%, #D32F2F 100%);
+      padding: 24px;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px 40px 40px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+      text-align: center;
+    }
+    .login-logo {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #C62828;
+      margin-bottom: 20px;
+    }
+    .login-card h1 { font-size: 1.45rem; font-weight: 800; margin-bottom: 6px; }
+    .login-card .login-sub { color: #71717A; font-size: 0.88rem; margin-bottom: 28px; }
+    .login-fields { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 700; color: #52525B; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .field input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid #E4E4E7;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      transition: border-color .18s;
+      background: #FAFAFA;
+    }
+    .field input:focus { outline: none; border-color: #C62828; background: #fff; }
+    .btn-primary {
+      background: #C62828;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 13px 24px;
+      border: none;
+      border-radius: 9px;
+      transition: background .18s, transform .1s;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .btn-primary:hover:not(:disabled) { background: #8B0000; }
+    .btn-primary:active:not(:disabled) { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+    .error-msg { color: #C62828; font-size: 0.83rem; min-height: 18px; margin-top: 8px; text-align: center; }
+
+    /* ── HEADER ADMIN ── */
+    .adm-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 62px;
+      background: #C62828;
+      box-shadow: 0 2px 10px rgba(0,0,0,.22);
+      z-index: 100;
+    }
+    .adm-header-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .adm-brand { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 800; font-size: 1rem; }
+    .adm-brand img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.35); }
+    .adm-brand span { letter-spacing: -.01em; }
+    .btn-logout {
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.35);
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background .18s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,.26); }
+
+    /* ── MAIN ── */
+    .adm-main { max-width: 1000px; margin: 0 auto; padding: 82px 24px 56px; }
+
+    /* ── TABS ── */
+    .adm-tabs {
+      display: flex;
+      gap: 4px;
+      background: #fff;
+      border-radius: 11px;
+      padding: 5px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      margin-bottom: 26px;
+      max-width: 360px;
+    }
+    .adm-tab {
+      flex: 1;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 7px;
+      background: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: #71717A;
+      transition: background .18s, color .18s;
+    }
+    .adm-tab.active { background: #C62828; color: #fff; }
+    .adm-tab:not(.active):hover { background: #FEF2F2; color: #C62828; }
+
+    /* ── PANE ── */
+    .pane-header { margin-bottom: 20px; }
+    .pane-header h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 5px; }
+    .pane-header p  { color: #71717A; font-size: 0.88rem; line-height: 1.5; }
+    .pane-header.between { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .pane-header.between .btn-primary { width: auto; margin-top: 0; white-space: nowrap; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th {
+      background: #F9FAFB;
+      color: #52525B;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 12px 18px;
+      text-align: left;
+      border-bottom: 1px solid #E4E4E7;
+    }
+    .data-table tbody td { padding: 11px 18px; font-size: 0.9rem; border-bottom: 1px solid #F4F4F5; }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover td { background: #FFFBF0; }
+    .price-input, .client-price-input {
+      width: 130px;
+      padding: 8px 12px;
+      border: 1.5px solid #E4E4E7;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      text-align: right;
+      transition: border-color .18s;
+      background: #FAFAFA;
+    }
+    .price-input:focus, .client-price-input:focus {
+      outline: none;
+      border-color: #C62828;
+      background: #fff;
+    }
+    .cell-base { color: #71717A; font-size: 0.85rem; }
+
+    /* ── PANE FOOTER ── */
+    .pane-footer { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
+    .pane-footer .btn-primary { width: auto; }
+    .status-msg { font-size: 0.83rem; font-weight: 600; min-height: 18px; }
+
+    /* ── CLIENTS LIST ── */
+    .client-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .client-name { font-weight: 700; font-size: 0.98rem; margin-bottom: 3px; }
+    .client-link { font-size: 0.76rem; color: #71717A; word-break: break-all; }
+    .client-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-sm {
+      padding: 7px 13px;
+      border: 1.5px solid #E4E4E7;
+      border-radius: 7px;
+      background: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #3F3F46;
+      transition: border-color .18s, color .18s, background .18s;
+      white-space: nowrap;
+    }
+    .btn-sm:hover      { border-color: #A1A1AA; }
+    .btn-sm.btn-copy:hover { border-color: #1D4ED8; color: #1D4ED8; }
+    .btn-sm.btn-edit:hover { border-color: #15803D; color: #15803D; }
+    .btn-sm.btn-del    { border-color: transparent; }
+    .btn-sm.btn-del:hover  { background: #C62828; color: #fff; border-color: #C62828; }
+
+    .empty-state {
+      background: #fff;
+      border-radius: 12px;
+      padding: 48px 24px;
+      text-align: center;
+      color: #71717A;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+
+    /* ── MODAL ── */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.50);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+      z-index: 200;
+      overflow-y: auto;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 36px 32px 28px;
+      max-width: 740px;
+      width: 100%;
+      position: relative;
+      margin: auto;
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      background: #F4F4F5;
+      border: none;
+      font-size: 1rem;
+      line-height: 1;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      color: #71717A;
+      transition: background .15s, color .15s;
+    }
+    .modal-close:hover { background: #E4E4E7; color: #18181B; }
+    .modal-box h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 22px; }
+    .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+    .label-hint { color: #A1A1AA; font-weight: 400; font-size: 0.85rem; }
+    .modal-section-title { font-size: 0.88rem; margin-bottom: 10px; color: #3F3F46; }
+    .modal-table-wrap {
+      max-height: 340px;
+      overflow-y: auto;
+      border-radius: 10px;
+      border: 1.5px solid #E4E4E7;
+      margin-bottom: 20px;
+    }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
+    .btn-secondary {
+      background: #fff;
+      color: #3F3F46;
+      border: 1.5px solid #E4E4E7;
+      padding: 11px 22px;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: border-color .18s, color .18s;
+    }
+    .btn-secondary:hover { border-color: #C62828; color: #C62828; }
+    .modal-footer .btn-primary { width: auto; margin-top: 0; }
+    #msg-modal { font-size: 0.83rem; font-weight: 600; min-height: 18px; margin-top: 10px; text-align: right; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: #18181B;
+      color: #fff;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 300;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      animation: toastIn .25s ease;
+    }
+    @keyframes toastIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .login-card { padding: 36px 24px 28px; }
+      .adm-brand span { display: none; }
+      .fields-row { grid-template-columns: 1fr; }
+      .modal-box { padding: 28px 18px 20px; }
+      .client-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ──────────── PANTALLA DE LOGIN ──────────── -->
+  <div id="login-screen">
+    <div class="login-card">
+      <img src="Fotos%20Dona%20sol/Logo.JPG" alt="Doña Sol" class="login-logo" />
+      <h1>Panel Administrativo</h1>
+      <p class="login-sub">Ingresá con tu cuenta de administrador</p>
+      <form id="login-form" class="login-fields" novalidate>
+        <div class="field">
+          <label>Correo electrónico</label>
+          <input type="email" id="login-email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" id="login-password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn-primary" id="btn-login">Ingresar</button>
+        <p id="login-error" class="error-msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ──────────── PANEL ADMIN ──────────── -->
+  <div id="admin-panel" style="display:none;">
+
+    <header class="adm-header">
+      <div class="adm-header-inner">
+        <div class="adm-brand">
+          <img src="Fotos%20Dona%20sol/Logo.JPG" alt="" />
+          <span>Panel Admin · Doña Sol</span>
+        </div>
+        <button id="btn-logout" class="btn-logout">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="adm-main">
+
+      <!-- TABS -->
+      <nav class="adm-tabs">
+        <button class="adm-tab active" data-tab="precios">Precios Base</button>
+        <button class="adm-tab" data-tab="clientes">Clientes</button>
+      </nav>
+
+      <!-- TAB: PRECIOS BASE -->
+      <div id="tab-precios" class="tab-pane">
+        <div class="pane-header">
+          <h2>Precios Base</h2>
+          <p>Estos precios aparecen en los catálogos personalizados cuando un producto no tiene precio especial definido para ese cliente.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th style="width:160px;">Precio ($)</th>
+              </tr>
+            </thead>
+            <tbody id="prices-tbody">
+              <!-- Generado por JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="pane-footer">
+          <button class="btn-primary" id="btn-save-prices">Guardar precios base</button>
+          <span class="status-msg" id="msg-prices"></span>
+        </div>
+      </div>
+
+      <!-- TAB: CLIENTES -->
+      <div id="tab-clientes" class="tab-pane" style="display:none;">
+        <div class="pane-header between">
+          <div>
+            <h2>Clientes</h2>
+            <p>Cada cliente tiene su link único de catálogo con sus precios acordados.</p>
+          </div>
+          <button class="btn-primary" id="btn-new-client">+ Nuevo cliente</button>
+        </div>
+        <div id="clients-list">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ──────────── MODAL CLIENTE ──────────── -->
+  <div id="client-modal" class="modal-bg" style="display:none;" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
+      <h2 id="modal-title">Nuevo cliente</h2>
+
+      <div class="fields-row">
+        <div class="field">
+          <label>Nombre del cliente</label>
+          <input type="text" id="cin-nombre" placeholder="Ej: Restaurante Carlos" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label>Identificador <span class="label-hint">(se usa en el link)</span></label>
+          <input type="text" id="cin-slug" placeholder="Ej: restaurante-carlos" autocomplete="off" />
+        </div>
+      </div>
+
+      <p class="modal-section-title">
+        <strong>Precios personalizados</strong>
+        <span class="label-hint"> — Dejá vacío para usar el precio base</span>
+      </p>
+
+      <div class="modal-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th style="width:110px;">Precio base</th>
+              <th style="width:155px;">Precio del cliente</th>
+            </tr>
+          </thead>
+          <tbody id="client-prices-tbody">
+            <!-- Generado por JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-modal-cancel">Cancelar</button>
+        <button class="btn-primary" id="btn-modal-save">Guardar cliente</button>
+      </div>
+      <p class="status-msg" id="msg-modal"></p>
+    </div>
+  </div>
+
+  <!-- Toast de notificación -->
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <!-- ──────────── FIREBASE ──────────── -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-init.js"></script>
+
+  <script>
+  // ── Lista de productos ────────────────────────────────────────────────────
+  var PRODUCTOS = [
+    { id: 'multiuso',            nombre: 'Limpiador Multiuso' },
+    { id: 'limpiavidrios',       nombre: 'Limpiavidrios' },
+    { id: 'lavandina',           nombre: 'Lavandina' },
+    { id: 'desinfectante',       nombre: 'Desinfectante' },
+    { id: 'cremoso',             nombre: 'Limpiador Cremoso' },
+    { id: 'alcohol-gel',         nombre: 'Alcohol en Gel' },
+    { id: 'desodorante',         nombre: 'Desodorante de Ambiente' },
+    { id: 'jabon-manos',         nombre: 'Jabón para Manos' },
+    { id: 'rejillas',            nombre: 'Rejillas' },
+    { id: 'jabon-ropa',          nombre: 'Jabón Líquido para Ropa' },
+    { id: 'ideal',               nombre: 'Ideal' },
+    { id: 'cera-pisos',          nombre: 'Cera para Pisos' },
+    { id: 'desengrasante',       nombre: 'Desengrasante' },
+    { id: 'alcohol',             nombre: 'Alcohol' },
+    { id: 'soda-caustica',       nombre: 'Soda Cáustica' },
+    { id: 'hipoclorito',         nombre: 'Hipoclorito de Sodio' },
+    { id: 'perfumador',          nombre: 'Perfumador Industrial' },
+    { id: 'emulsion-neumaticos', nombre: 'Emulsión para Neumáticos' },
+    { id: 'emulsion-plasticos',  nombre: 'Emulsión para Plásticos' },
+    { id: 'mulcit',              nombre: 'Limpiador Multiuso de Limón' },
+    { id: 'jumbo-200',           nombre: 'Jumbo 200' }
+  ];
+
+  // ── Estado global ─────────────────────────────────────────────────────────
+  var auth        = firebase.auth();
+  var basePrices  = {};
+  var clientsList = [];
+  var editingSlug = null;
+  var toastTimer;
+
+  // ── Autenticación ─────────────────────────────────────────────────────────
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-panel').style.display  = '';
+      loadAll();
+    } else {
+      document.getElementById('login-screen').style.display = '';
+      document.getElementById('admin-panel').style.display  = 'none';
+    }
+  });
+
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email  = document.getElementById('login-email').value.trim();
+    var pass   = document.getElementById('login-password').value;
+    var errEl  = document.getElementById('login-error');
+    var btnEl  = document.getElementById('btn-login');
+    errEl.textContent  = '';
+    btnEl.textContent  = 'Ingresando...';
+    btnEl.disabled     = true;
+    auth.signInWithEmailAndPassword(email, pass).catch(function() {
+      errEl.textContent = 'Email o contraseña incorrectos.';
+      btnEl.textContent = 'Ingresar';
+      btnEl.disabled    = false;
+    });
+  });
+
+  document.getElementById('btn-logout').addEventListener('click', function() {
+    auth.signOut();
+  });
+
+  // ── Carga inicial ─────────────────────────────────────────────────────────
+  function loadAll() {
+    loadBasePrices();
+    loadClients();
+  }
+
+  function loadBasePrices() {
+    db.collection('precios').doc('base').get().then(function(doc) {
+      basePrices = doc.exists ? (doc.data() || {}) : {};
+      renderPricesTable();
+    });
+  }
+
+  function loadClients() {
+    db.collection('clientes').get().then(function(snap) {
+      clientsList = snap.docs.map(function(d) {
+        return Object.assign({ id: d.id }, d.data());
+      });
+      clientsList.sort(function(a, b) {
+        return a.nombre.localeCompare(b.nombre, 'es');
+      });
+      renderClientsList();
+    });
+  }
+
+  // ── Tabla de precios base ─────────────────────────────────────────────────
+  function renderPricesTable() {
+    var tbody = document.getElementById('prices-tbody');
+    tbody.innerHTML = '';
+    PRODUCTOS.forEach(function(p) {
+      var val = basePrices[p.id] !== undefined ? basePrices[p.id] : '';
+      var tr  = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + escHtml(p.nombre) + '</td>' +
+        '<td><input type="number" class="price-input" data-id="' + p.id + '"' +
+        ' value="' + val + '" min="0" step="1" placeholder="—" /></td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('btn-save-prices').addEventListener('click', function() {
+    var inputs = document.querySelectorAll('#prices-tbody .price-input');
+    var prices = {};
+    inputs.forEach(function(inp) {
+      var v = inp.value.trim();
+      if (v !== '') prices[inp.dataset.id] = Number(v);
+    });
+    db.collection('precios').doc('base').set(prices).then(function() {
+      basePrices = prices;
+      showMsg('msg-prices', 'Guardado ✓', false);
+    }).catch(function() {
+      showMsg('msg-prices', 'Error al guardar', true);
+    });
+  });
+
+  // ── Lista de clientes ─────────────────────────────────────────────────────
+  function renderClientsList() {
+    var container = document.getElementById('clients-list');
+    if (clientsList.length === 0) {
+      container.innerHTML = '<div class="empty-state">Todavía no hay clientes. Creá el primero con el botón de arriba.</div>';
+      return;
+    }
+    container.innerHTML = '';
+    clientsList.forEach(function(client) {
+      var link = getClientLink(client.id);
+      var card = document.createElement('div');
+      card.className = 'client-card';
+      card.innerHTML =
+        '<div class="client-info">' +
+          '<div class="client-name">' + escHtml(client.nombre) + '</div>' +
+          '<div class="client-link">' + escHtml(link) + '</div>' +
+        '</div>' +
+        '<div class="client-actions">' +
+          '<button class="btn-sm btn-copy" onclick="copyLink(\'' + escAttr(link) + '\')">Copiar link</button>' +
+          '<button class="btn-sm btn-edit" onclick="openModal(\'' + escAttr(client.id) + '\')">Editar</button>' +
+          '<button class="btn-sm btn-del"  onclick="deleteClient(\'' + escAttr(client.id) + '\',\'' + escAttr(client.nombre) + '\')">Eliminar</button>' +
+        '</div>';
+      container.appendChild(card);
+    });
+  }
+
+  function getClientLink(slug) {
+    var base = window.location.href.replace(/[^\/]*$/, '');
+    return base + 'catalogo.html?c=' + slug;
+  }
+
+  function copyLink(link) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).then(function() {
+        showToast('Link copiado al portapapeles ✓');
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = link;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Link copiado ✓');
+    }
+  }
+
+  // ── Modal de cliente ──────────────────────────────────────────────────────
+  function openModal(slug) {
+    editingSlug = slug || null;
+    var modal   = document.getElementById('client-modal');
+    var titleEl = document.getElementById('modal-title');
+    var nomEl   = document.getElementById('cin-nombre');
+    var slgEl   = document.getElementById('cin-slug');
+    document.getElementById('msg-modal').textContent = '';
+    document.getElementById('btn-modal-save').disabled = false;
+
+    if (slug) {
+      var client = clientsList.find(function(c) { return c.id === slug; });
+      titleEl.textContent = 'Editar cliente';
+      nomEl.value         = client.nombre;
+      slgEl.value         = client.id;
+      slgEl.readOnly      = true;
+      renderClientPricesTable(client.precios || {});
+    } else {
+      titleEl.textContent = 'Nuevo cliente';
+      nomEl.value         = '';
+      slgEl.value         = '';
+      slgEl.readOnly      = false;
+      renderClientPricesTable({});
+    }
+
+    modal.style.display = '';
+    nomEl.focus();
+  }
+
+  function closeModal() {
+    document.getElementById('client-modal').style.display = 'none';
+    editingSlug = null;
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('btn-modal-cancel').addEventListener('click', closeModal);
+  document.getElementById('client-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.getElementById('btn-new-client').addEventListener('click', function() { openModal(null); });
+
+  // Auto-slug desde nombre
+  document.getElementById('cin-nombre').addEventListener('input', function(e) {
+    if (!editingSlug) {
+      document.getElementById('cin-slug').value = toSlug(e.target.value);
+    }
+  });
+
+  function toSlug(s) {
+    return s.toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function renderClientPricesTable(clientPrices) {
+    var tbody = document.getElementById('client-prices-tbody');
+    tbody.innerHTML = '';
+    PRODUCTOS.forEach(function(p) {
+      var base = basePrices[p.id] !== undefined ? '$' + basePrices[p.id] : '—';
+      var val  = clientPrices[p.id] !== undefined ? clientPrices[p.id] : '';
+      var tr   = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + escHtml(p.nombre) + '</td>' +
+        '<td class="cell-base">' + base + '</td>' +
+        '<td><input type="number" class="client-price-input" data-id="' + p.id + '"' +
+        ' value="' + val + '" min="0" step="1" placeholder="Precio base" /></td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('btn-modal-save').addEventListener('click', function() {
+    var nombre = document.getElementById('cin-nombre').value.trim();
+    var slug   = document.getElementById('cin-slug').value.trim();
+
+    if (!nombre) { showMsg('msg-modal', 'Ingresá el nombre del cliente', true); return; }
+    if (!slug)   { showMsg('msg-modal', 'Ingresá el identificador', true); return; }
+    if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(slug) && slug.length > 1) {
+      showMsg('msg-modal', 'El identificador solo puede tener letras minúsculas, números y guiones', true);
+      return;
+    }
+
+    var precios = {};
+    document.querySelectorAll('#client-prices-tbody .client-price-input').forEach(function(inp) {
+      var v = inp.value.trim();
+      if (v !== '') precios[inp.dataset.id] = Number(v);
+    });
+
+    var data = {
+      nombre:       nombre,
+      precios:      precios,
+      actualizadoEn: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    var btnSave = document.getElementById('btn-modal-save');
+    btnSave.disabled    = true;
+    btnSave.textContent = 'Guardando...';
+
+    db.collection('clientes').doc(slug).set(data).then(function() {
+      closeModal();
+      loadClients();
+      showToast('Cliente "' + nombre + '" guardado ✓');
+    }).catch(function(err) {
+      showMsg('msg-modal', 'Error: ' + err.message, true);
+      btnSave.disabled    = false;
+      btnSave.textContent = 'Guardar cliente';
+    });
+  });
+
+  // ── Eliminar cliente ──────────────────────────────────────────────────────
+  function deleteClient(slug, nombre) {
+    if (!confirm('¿Eliminar al cliente "' + nombre + '"?\nEsta acción no se puede deshacer.')) return;
+    db.collection('clientes').doc(slug).delete().then(function() {
+      loadClients();
+      showToast('Cliente eliminado');
+    });
+  }
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.adm-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.adm-tab').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-pane').forEach(function(p) { p.style.display = 'none'; });
+      document.getElementById('tab-' + btn.dataset.tab).style.display = '';
+    });
+  });
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function escAttr(s) { return escHtml(s).replace(/'/g, '&#39;'); }
+
+  function showMsg(id, text, isError) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.style.color = isError ? '#C62828' : '#15803D';
+    setTimeout(function() { el.textContent = ''; }, 3500);
+  }
+
+  function showToast(text) {
+    var el = document.getElementById('toast');
+    el.textContent   = text;
+    el.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { el.style.display = 'none'; }, 2800);
+  }
+  </script>
+</body>
+</html>

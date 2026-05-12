@@ -85,6 +85,21 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(37,211,102,0.50);
     }
+
+    /* Ocultar footer de tarjeta por defecto — se muestra vía JS cuando hay precio */
+    .product-card-footer { display: none; }
+
+    /* Banner de catálogo personalizado */
+    #cliente-banner {
+      background: linear-gradient(90deg, #1A1A1A 0%, #2D2D2D 100%);
+      color: #fff;
+      text-align: center;
+      padding: 13px 24px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    #cliente-banner strong { color: #FFD600; }
+    #cliente-banner .banner-inner { max-width: 700px; margin: 0 auto; }
   </style>
 </head>
 <body>
@@ -136,12 +151,20 @@
       <p>Productos de limpieza para el hogar, comercios e industria. Fabricación propia, calidad garantizada.</p>
     </section>
 
+    <!-- BANNER CLIENTE PERSONALIZADO (oculto por defecto) -->
+    <div id="cliente-banner" style="display:none;">
+      <div class="banner-inner">
+        Catálogo personalizado para <strong id="cliente-banner-nombre"></strong>
+        · Los precios mostrados son los acordados con Doña Sol.
+      </div>
+    </div>
+
     <!-- GRILLA DE PRODUCTOS -->
     <section id="catalogo-section">
       <div class="catalogo-inner">
         <div class="catalogo-grid">
 
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-id="multiuso">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Multiuso.JPG" alt="Limpiador Multiuso" />
             </div>
@@ -149,9 +172,12 @@
               <div class="product-card-name">Limpiador Multiuso</div>
               <div class="product-card-desc">Para superficies del hogar. Elimina grasa y suciedad sin dañar.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="limpiavidrios">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Limpiavidrios.JPG" alt="Limpiavidrios" />
             </div>
@@ -159,9 +185,12 @@
               <div class="product-card-name">Limpiavidrios</div>
               <div class="product-card-desc">Cristales y espejos brillantes sin rayas ni residuos.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-id="lavandina">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Lavandina.JPG" alt="Lavandina" />
             </div>
@@ -169,9 +198,12 @@
               <div class="product-card-name">Lavandina</div>
               <div class="product-card-desc">Desinfectante y blanqueador de alta concentración.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-id="desinfectante">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/AmonioCuaternario.JPG" alt="Desinfectante" />
             </div>
@@ -179,9 +211,12 @@
               <div class="product-card-name">Desinfectante</div>
               <div class="product-card-desc">Amonio cuaternario. Elimina bacterias y virus en pisos, baños y cocinas.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="cremoso">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Cremoso.JPG" alt="Limpiador Cremoso" />
             </div>
@@ -189,9 +224,12 @@
               <div class="product-card-name">Limpiador Cremoso</div>
               <div class="product-card-desc">Limpieza suave y efectiva en superficies delicadas.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-id="alcohol-gel">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcoholengel.JPG" alt="Alcohol en Gel" />
             </div>
@@ -199,9 +237,12 @@
               <div class="product-card-name">Alcohol en Gel</div>
               <div class="product-card-desc">Higiene y desinfección de manos sin agua.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-id="desodorante">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Desodorante.JPG" alt="Desodorante de Ambiente" />
             </div>
@@ -209,9 +250,12 @@
               <div class="product-card-name">Desodorante de Ambiente</div>
               <div class="product-card-desc">Elimina malos olores y perfuma ambientes.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="jabon-manos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Jabon_para_manos-removebg-preview.png" alt="Jabón para Manos" />
             </div>
@@ -219,9 +263,12 @@
               <div class="product-card-name">Jabón para Manos</div>
               <div class="product-card-desc">Limpieza suave con hidratación para el cuidado diario.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-id="rejillas">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Rejillas.JPG" alt="Rejillas" />
             </div>
@@ -229,9 +276,12 @@
               <div class="product-card-name">Rejillas</div>
               <div class="product-card-desc">Desincrusta y deja brillantes las rejillas de cocina.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-id="jabon-ropa">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Jabon%20Liquido.JPG" alt="Jabón Líquido para Ropa" />
             </div>
@@ -239,9 +289,12 @@
               <div class="product-card-name">Jabón Líquido para Ropa</div>
               <div class="product-card-desc">Limpieza profunda para todo tipo de tejidos.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="ideal">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Ideal.JPG" alt="Ideal" />
             </div>
@@ -249,9 +302,12 @@
               <div class="product-card-name">Ideal</div>
               <div class="product-card-desc">Producto multiuso para el cuidado y lavado de la ropa.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-id="cera-pisos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Cera.JPG" alt="Cera para Pisos" />
             </div>
@@ -259,9 +315,12 @@
               <div class="product-card-name">Cera para Pisos</div>
               <div class="product-card-desc">Brillo y protección duradera para pisos de cerámica y madera.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="desengrasante">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Desengrasante.JPG" alt="Desengrasante" />
             </div>
@@ -269,9 +328,12 @@
               <div class="product-card-name">Desengrasante</div>
               <div class="product-card-desc">Elimina grasa pesada de pisos industriales y cocinas.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-id="alcohol">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcohol.JPG" alt="Alcohol" />
             </div>
@@ -279,9 +341,12 @@
               <div class="product-card-name">Alcohol</div>
               <div class="product-card-desc">Para desinfección industrial y superficies de alto contacto.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="soda-caustica">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Soda.JPG" alt="Soda Cáustica" />
             </div>
@@ -289,9 +354,12 @@
               <div class="product-card-name">Soda Cáustica</div>
               <div class="product-card-desc">Limpieza de cañerías y superficies industriales.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-id="hipoclorito">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Hipoclorito.JPG" alt="Hipoclorito de Sodio" />
             </div>
@@ -299,9 +367,12 @@
               <div class="product-card-name">Hipoclorito de Sodio</div>
               <div class="product-card-desc">Desinfectante de alto poder para uso industrial y hospitalario.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-id="perfumador">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Perfumador.JPG" alt="Perfumador Industrial" />
             </div>
@@ -309,9 +380,12 @@
               <div class="product-card-name">Perfumador Industrial</div>
               <div class="product-card-desc">Fragancias concentradas para grandes espacios y locales.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1">
+          <div class="product-card reveal reveal-delay-1" data-id="emulsion-neumaticos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Emulsion_Neumaticos-removebg-preview.png" alt="Emulsión para Neumáticos" />
             </div>
@@ -319,9 +393,12 @@
               <div class="product-card-name">Emulsión para Neumáticos</div>
               <div class="product-card-desc">Restaura y protege neumáticos con brillo duradero.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2">
+          <div class="product-card reveal reveal-delay-2" data-id="emulsion-plasticos">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Emulsion_plasticos-removebg-preview.png" alt="Emulsión para Plásticos" />
             </div>
@@ -329,9 +406,12 @@
               <div class="product-card-name">Emulsión para Plásticos</div>
               <div class="product-card-desc">Limpia y da brillo a superficies plásticas y tableros.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3">
+          <div class="product-card reveal reveal-delay-3" data-id="mulcit">
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Mulcit-removebg-preview.png" alt="Limpiador Multiuso de Limón" />
             </div>
@@ -339,15 +419,21 @@
               <div class="product-card-name">Limpiador Multiuso de Limón</div>
               <div class="product-card-desc">Producto industrial de uso específico para limpieza profunda.</div>
             </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
+            </div>
           </div>
 
-          <div class="product-card reveal">
+          <div class="product-card reveal" data-id="jumbo-200">
             <div class="product-card-img">
-              <img src="Fotos%20Dona%20sol/Toalla-en-rollo-FIT-FUNDA.jpg" alt="Toalla en Rollo Jumbo 200" />
+              <img src="Fotos%20Dona%20sol/Jumbo 200.jpg" alt="Jumbo 200" />
             </div>
             <div class="product-card-body">
               <div class="product-card-name">Jumbo 200</div>
               <div class="product-card-desc">Toalla en rollo de alta absorción. Ideal para uso profesional e industrial.</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price"></span>
             </div>
           </div>
 
@@ -374,6 +460,7 @@
       <div class="pmodal-body">
         <h2 id="pmodal-name"></h2>
         <p id="pmodal-desc"></p>
+        <span id="pmodal-volume" class="product-card-volume" style="display:none;"></span>
         <a id="pmodal-wa" href="#" target="_blank" class="pmodal-btn-wa">
           💬 Comprar por WhatsApp
         </a>
@@ -425,6 +512,73 @@
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
   </a>
+
+  <!-- ── Firebase (solo se usa cuando hay ?c= en la URL) ── -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-init.js"></script>
+
+  <!-- ── Precios personalizados por cliente ── -->
+  <script>
+  (function () {
+    var params      = new URLSearchParams(window.location.search);
+    var clienteSlug = params.get('c');
+    if (!clienteSlug) return;
+
+    var PRODUCTOS_IDS = [
+      'multiuso', 'limpiavidrios', 'lavandina', 'desinfectante', 'cremoso',
+      'alcohol-gel', 'desodorante', 'jabon-manos', 'rejillas', 'jabon-ropa',
+      'ideal', 'cera-pisos', 'desengrasante', 'alcohol', 'soda-caustica',
+      'hipoclorito', 'perfumador', 'emulsion-neumaticos', 'emulsion-plasticos',
+      'mulcit', 'jumbo-200'
+    ];
+
+    function formatPrecio(n) {
+      return '$ ' + Number(n).toLocaleString('es-UY');
+    }
+
+    function aplicarPrecios(preciosCliente, preciosBase) {
+      PRODUCTOS_IDS.forEach(function (id) {
+        var precio =
+          preciosCliente[id] !== undefined ? preciosCliente[id] :
+          preciosBase[id]    !== undefined ? preciosBase[id]    : null;
+
+        if (precio === null || precio === '') return;
+
+        var card    = document.querySelector('[data-id="' + id + '"]');
+        if (!card) return;
+        var footer  = card.querySelector('.product-card-footer');
+        var priceEl = card.querySelector('.product-card-price');
+        if (priceEl) {
+          priceEl.textContent = formatPrecio(precio);
+          if (footer) footer.style.display = 'flex';
+          card.dataset.precio = precio;
+        }
+      });
+    }
+
+    db.collection('clientes').doc(clienteSlug).get()
+      .then(function (doc) {
+        if (!doc.exists) return;
+        var data = doc.data();
+
+        var bannerEl      = document.getElementById('cliente-banner');
+        var bannerNombreEl = document.getElementById('cliente-banner-nombre');
+        if (bannerEl)      bannerEl.style.display      = '';
+        if (bannerNombreEl) bannerNombreEl.textContent = data.nombre;
+
+        var preciosCliente = data.precios || {};
+
+        return db.collection('precios').doc('base').get().then(function (baseDoc) {
+          var preciosBase = baseDoc.exists ? (baseDoc.data() || {}) : {};
+          aplicarPrecios(preciosCliente, preciosBase);
+        });
+      })
+      .catch(function (err) {
+        console.warn('Doña Sol pricing:', err.message);
+      });
+  })();
+  </script>
 
   <script src="script.js"></script>
 </body>
