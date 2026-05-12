@@ -4,7 +4,11 @@
       "WebFetch(domain:www.donasol.com.uy)",
       "Bash(sort -k5 -rn)",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\juanc\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Do-aSol\" -Recurse -File)",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\juanc\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Do-aSol\" -Recurse -Force)",
+      "Bash(Select-Object FullName, Attributes)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize -Wrap)"
     ]
   }
 }
