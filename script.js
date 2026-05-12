@@ -63,17 +63,20 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   const overlay  = document.getElementById('product-modal');
   if (!overlay) return;
 
-  const imgEl    = document.getElementById('pmodal-img');
-  const nameEl   = document.getElementById('pmodal-name');
-  const descEl   = document.getElementById('pmodal-desc');
-  const waBtn    = document.getElementById('pmodal-wa');
-  const closeBtn = overlay.querySelector('.pmodal-close');
+  const imgEl     = document.getElementById('pmodal-img');
+  const nameEl    = document.getElementById('pmodal-name');
+  const descEl    = document.getElementById('pmodal-desc');
+  const volumeEl  = document.getElementById('pmodal-volume');
+  const waBtn     = document.getElementById('pmodal-wa');
+  const closeBtn  = overlay.querySelector('.pmodal-close');
 
-  function openModal(name, desc, imgSrc) {
-    imgEl.src        = imgSrc;
-    imgEl.alt        = name;
+  function openModal(name, desc, imgSrc, volume) {
+    imgEl.src          = imgSrc;
+    imgEl.alt          = name;
     nameEl.textContent = name;
     descEl.textContent = desc;
+    volumeEl.textContent = volume || '';
+    volumeEl.style.display = volume ? 'inline-block' : 'none';
     waBtn.href = `https://wa.me/59892747716?text=${encodeURIComponent(`Hola Doña Sol! 👋 Quiero comprar: *${name}*`)}`;
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -87,10 +90,12 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   document.querySelectorAll('.product-card').forEach(card => {
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
-      const name = card.querySelector('.product-card-name').textContent.trim();
-      const desc = card.querySelector('.product-card-desc').textContent.trim();
-      const img  = card.querySelector('.product-card-img img').getAttribute('src');
-      openModal(name, desc, img);
+      const name   = card.querySelector('.product-card-name').textContent.trim();
+      const desc   = card.querySelector('.product-card-desc').textContent.trim();
+      const img    = card.querySelector('.product-card-img img').getAttribute('src');
+      const volEl  = card.querySelector('.product-card-volume');
+      const volume = volEl ? volEl.textContent.trim() : '';
+      openModal(name, desc, img, volume);
     });
   });
 

@@ -1114,7 +1114,17 @@ footer {
   color: var(--gray);
   font-size: 0.93rem;
   line-height: 1.70;
-  margin-bottom: 26px;
+  margin-bottom: 12px;
+}
+.pmodal-volume {
+  display: inline-block;
+  background: var(--gray-light);
+  color: var(--dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
 }
 .pmodal-btn-wa {
   display: flex;
