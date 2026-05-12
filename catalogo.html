@@ -651,6 +651,14 @@
     var clienteSlug = params.get('c');
     if (!clienteSlug) return;
 
+    // Ocultar menú hamburguesa y sidebar en catálogos personalizados
+    var btnMenu = document.getElementById('btn-menu');
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('overlay');
+    if (btnMenu) btnMenu.style.display = 'none';
+    if (sidebar) sidebar.style.display = 'none';
+    if (overlay) overlay.style.display = 'none';
+
     var PRODUCTOS_IDS = [
       'multiuso','limpiavidrios','lavandina','desinfectante','cremoso',
       'alcohol-gel','desodorante','jabon-manos','rejillas','jabon-ropa',
