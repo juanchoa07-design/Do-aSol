@@ -96,15 +96,20 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   document.querySelectorAll('.product-card').forEach(card => {
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
-      const name      = card.querySelector('.product-card-name').textContent.trim();
-      const desc      = card.querySelector('.product-card-desc').textContent.trim();
-      const img       = card.querySelector('.product-card-img img').getAttribute('src');
-      const volEl     = card.querySelector('.product-card-volume');
-      const volume    = volEl ? volEl.textContent.trim() : '';
-      const productId = card.dataset.id || '';
-      const priceEl   = card.querySelector('.product-card-price');
-      const price     = priceEl && priceEl.textContent.trim() ? priceEl.textContent.trim() : '';
-      openModal(name, desc, img, volume, productId, price);
+      const name       = card.querySelector('.product-card-name').textContent.trim();
+      const desc       = card.querySelector('.product-card-desc').textContent.trim();
+      const img        = card.querySelector('.product-card-img img').getAttribute('src');
+      const volEl      = card.querySelector('.product-card-volume');
+      const volume     = volEl ? volEl.textContent.trim() : '';
+      const productId  = card.dataset.id || '';
+      const priceEl    = card.querySelector('.product-card-price');
+      const price      = priceEl && priceEl.textContent.trim() ? priceEl.textContent.trim() : '';
+      const sizeKey    = card.dataset.selectedSize;
+      const sizeLabel  = card.dataset.selectedSizeLabel;
+      const cartId     = sizeKey ? productId + '_' + sizeKey : productId;
+      const modalName  = sizeLabel ? name + ' (' + sizeLabel + ')' : name;
+      const modalVol   = sizeLabel || volume;
+      openModal(modalName, desc, img, modalVol, cartId, price);
     });
   });
 
@@ -188,33 +193,46 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     ctrl.append(minBtn, numEl, plusBtn);
     footer.append(addBtn, ctrl);
-    cardControls[id] = { addBtn, ctrl, numEl };
+    cardControls[id] = { addBtn, ctrl, numEl, card };
 
     addBtn.addEventListener('click', e => {
       e.stopPropagation();
-      const priceEl = card.querySelector('.product-card-price');
-      window.cartAdd(id, name, priceEl ? priceEl.textContent.trim() : '');
+      const priceEl   = card.querySelector('.product-card-price');
+      const price     = priceEl ? priceEl.textContent.trim() : '';
+      const sizeKey   = card.dataset.selectedSize;
+      const sizeLabel = card.dataset.selectedSizeLabel;
+      const cartId    = sizeKey ? id + '_' + sizeKey : id;
+      const cartName  = sizeLabel ? name + ' (' + sizeLabel + ')' : name;
+      window.cartAdd(cartId, cartName, price);
     });
 
     plusBtn.addEventListener('click', e => {
       e.stopPropagation();
-      if (cart[id]) {
-        window.cartChangeQty(id, 1);
+      const sizeKey   = card.dataset.selectedSize;
+      const sizeLabel = card.dataset.selectedSizeLabel;
+      const cartId    = sizeKey ? id + '_' + sizeKey : id;
+      const cartName  = sizeLabel ? name + ' (' + sizeLabel + ')' : name;
+      if (cart[cartId]) {
+        window.cartChangeQty(cartId, 1);
       } else {
         const priceEl = card.querySelector('.product-card-price');
-        window.cartAdd(id, name, priceEl ? priceEl.textContent.trim() : '');
+        window.cartAdd(cartId, cartName, priceEl ? priceEl.textContent.trim() : '');
       }
     });
 
     minBtn.addEventListener('click', e => {
       e.stopPropagation();
-      window.cartChangeQty(id, -1);
+      const sizeKey = card.dataset.selectedSize;
+      const cartId  = sizeKey ? id + '_' + sizeKey : id;
+      window.cartChangeQty(cartId, -1);
     });
   });
 
   function syncCardControls() {
-    Object.entries(cardControls).forEach(([id, { addBtn, ctrl, numEl }]) => {
-      const qty = cart[id] ? cart[id].qty : 0;
+    Object.entries(cardControls).forEach(([id, { addBtn, ctrl, numEl, card }]) => {
+      const sizeKey = card && card.dataset.selectedSize;
+      const cartKey = sizeKey ? id + '_' + sizeKey : id;
+      const qty = cart[cartKey] ? cart[cartKey].qty : 0;
       if (qty > 0) {
         addBtn.style.display = 'none';
         ctrl.style.display   = 'flex';
@@ -300,6 +318,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     syncCardControls();
   }
 
+  window.syncCardControlsExternal = syncCardControls;
   render();
 })();
 
@@ -427,6 +446,73 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         { duration: 0.25, easing: [0.25, 0.46, 0.45, 0.94] }
       );
     });
+  });
+})();
+
+// ── Size Selectors ────────────────────────────────────────────
+(function () {
+  function parseSizes(attr) {
+    return attr.split(',').map(function(part) {
+      var idx = part.indexOf('|');
+      return idx >= 0
+        ? { label: part.slice(0, idx), key: part.slice(idx + 1) }
+        : { label: part, key: part };
+    });
+  }
+
+  document.querySelectorAll('.product-card[data-sizes]').forEach(function(card) {
+    var sizes   = parseSizes(card.dataset.sizes);
+    var id      = card.dataset.id;
+    var footer  = card.querySelector('.product-card-footer');
+    var volEl   = card.querySelector('.product-card-volume');
+    if (!footer) return;
+
+    // Hide the old volume text – size buttons take its role
+    if (volEl) volEl.style.display = 'none';
+
+    // Build size button group
+    var group = document.createElement('div');
+    group.className = 'size-selector';
+
+    sizes.forEach(function(s, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'size-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = s.label;
+
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        group.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        card.dataset.selectedSize      = s.key;
+        card.dataset.selectedSizeLabel = s.label;
+
+        // Update displayed price
+        if (window.preciosActuales) {
+          var precio  = window.preciosActuales[id + '_' + s.key];
+          var priceEl = card.querySelector('.product-card-price');
+          if (priceEl) {
+            priceEl.textContent = precio != null
+              ? '$ ' + Math.round(Number(precio)).toLocaleString('es-UY')
+              : '';
+          }
+        }
+
+        // Refresh cart button state for the new size
+        if (window.syncCardControlsExternal) window.syncCardControlsExternal();
+      });
+
+      group.appendChild(btn);
+    });
+
+    // Insert group before price element
+    var priceEl = card.querySelector('.product-card-price');
+    if (priceEl) footer.insertBefore(group, priceEl);
+    else         footer.appendChild(group);
+
+    // Set default selection
+    card.dataset.selectedSize      = sizes[0].key;
+    card.dataset.selectedSizeLabel = sizes[0].label;
   });
 })();
 

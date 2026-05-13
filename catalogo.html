@@ -126,7 +126,7 @@
         <div class="products-grid">
 
           <!-- ── LIMPIEZA ── -->
-          <div class="product-card reveal" data-category="hogar" data-id="multiuso">
+          <div class="product-card reveal" data-category="hogar" data-id="multiuso" data-sizes="5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Multiuso.JPG" alt="Limpiador Multiuso" />
@@ -171,7 +171,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="desinfectante">
+          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="desinfectante" data-sizes="5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/AmonioCuaternario.JPG" alt="Limpiador Líquido" />
@@ -201,7 +201,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-2" data-category="hogar" data-id="alcohol-gel">
+          <div class="product-card reveal reveal-delay-2" data-category="hogar" data-id="alcohol-gel" data-sizes="1L,5L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcoholengel.JPG" alt="Alcohol en Gel" />
@@ -261,7 +261,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1" data-category="hogar" data-id="ideal">
+          <div class="product-card reveal reveal-delay-1" data-category="hogar" data-id="ideal" data-sizes="5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Ideal.JPG" alt="Jabón p/Lavarropas Dúo" />
@@ -306,7 +306,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal" data-category="hogar" data-id="alcohol">
+          <div class="product-card reveal" data-category="hogar" data-id="alcohol" data-sizes="1L,5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Alcohol.JPG" alt="Alcohol Líquido" />
@@ -321,7 +321,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1" data-category="hogar" data-id="soda-caustica">
+          <div class="product-card reveal reveal-delay-1" data-category="hogar" data-id="soda-caustica" data-sizes="5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Soda.JPG" alt="Soda Cáustica" />
@@ -351,7 +351,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="perfumador">
+          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="perfumador" data-sizes="½L|500ml,1L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Perfumador.JPG" alt="Perfumador" />
@@ -396,7 +396,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="mulcit">
+          <div class="product-card reveal reveal-delay-3" data-category="hogar" data-id="mulcit" data-sizes="5L,10L">
             <div class="product-card-category"></div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Mulcit-removebg-preview.png" alt="Limpiador Multiuso Cítrico" />
@@ -441,7 +441,7 @@
             </div>
           </div>
 
-          <div class="product-card reveal reveal-delay-1" data-category="textil" data-id="panos-de-piso">
+          <div class="product-card reveal reveal-delay-1" data-category="textil" data-id="panos-de-piso" data-sizes="6 unid.|6u,25 unid.|25u">
             <div class="product-card-category">Textil</div>
             <div class="product-card-img">
               <img src="Fotos%20Dona%20sol/Pa%C3%B1os%20de%20piso.JPG" alt="Paños de Piso" />
@@ -652,8 +652,6 @@
     var clienteSlug = params.get('c');
 
     if (clienteSlug) {
-      // Ocultar navegación en catálogos de clientes
-      var btnMenu     = document.getElementById('btn-menu');
       var sidebar     = document.getElementById('sidebar');
       var overlay     = document.getElementById('overlay');
       var catBackWrap = document.getElementById('cat-back-wrap');
@@ -661,21 +659,20 @@
       if (overlay)     overlay.style.display     = 'none';
       if (catBackWrap) catBackWrap.style.display = 'none';
     } else {
-      return; // sin ?c= no hay precios que cargar
+      return;
     }
-
-    var PRODUCTOS_IDS = [
-      'multiuso','limpiavidrios','lavandina','desinfectante','cremoso',
-      'alcohol-gel','desodorante','jabon-manos','rejillas','jabon-ropa',
-      'ideal','cera-pisos','desengrasante','alcohol','soda-caustica',
-      'hipoclorito','perfumador','emulsion-neumaticos','emulsion-plasticos',
-      'mulcit','esencia','panos-de-piso','franelas',
-      'jumbo-200','toalla-intercalada','servilleta-bocadillo',
-      'rollo-cocina','servilleta-mesa','papel-higienico-dh','papel-higienico-jumbo'
-    ];
 
     function formatPrecio(n) {
       return '$ ' + Math.round(Number(n)).toLocaleString('es-UY');
+    }
+
+    function parseSizes(attr) {
+      return attr.split(',').map(function(part) {
+        var idx = part.indexOf('|');
+        return idx >= 0
+          ? { label: part.slice(0, idx), key: part.slice(idx + 1) }
+          : { label: part, key: part };
+      });
     }
 
     db.collection('clientes').doc(clienteSlug).get()
@@ -693,17 +690,25 @@
         return db.collection('precios').doc('base').get().then(function (baseDoc) {
           var preciosBase = baseDoc.exists ? (baseDoc.data() || {}) : {};
 
-          PRODUCTOS_IDS.forEach(function (id) {
-            var precio =
-              preciosCliente[id] !== undefined ? preciosCliente[id] :
-              preciosBase[id]    !== undefined ? preciosBase[id]    : null;
+          // Merge: cliente overrides base
+          var merged = Object.assign({}, preciosBase, preciosCliente);
+          window.preciosActuales = merged;
 
-            if (precio === null || precio === '') return;
-
-            var card    = document.querySelector('[data-id="' + id + '"]');
-            if (!card) return;
+          // Update price on every card based on selected size (or single price)
+          document.querySelectorAll('.product-card[data-id]').forEach(function(card) {
+            var id      = card.dataset.id;
             var priceEl = card.querySelector('.product-card-price');
-            if (priceEl) priceEl.textContent = formatPrecio(precio);
+            if (!priceEl) return;
+
+            if (card.dataset.sizes) {
+              var sizes      = parseSizes(card.dataset.sizes);
+              var selectedKey = card.dataset.selectedSize || sizes[0].key;
+              var precio     = merged[id + '_' + selectedKey];
+              if (precio != null) priceEl.textContent = formatPrecio(precio);
+            } else {
+              var precio = merged[id];
+              if (precio != null) priceEl.textContent = formatPrecio(precio);
+            }
           });
         });
       })

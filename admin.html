@@ -174,6 +174,7 @@
       background: #fff;
     }
     .cell-base { color: #71717A; font-size: 0.85rem; }
+    .size-badge { background:#F4F4F5; border:1px solid #D4D4D8; border-radius:4px; padding:1px 6px; font-size:0.73rem; color:#52525B; font-weight:600; margin-left:5px; }
 
     /* ── PANE FOOTER ── */
     .pane-footer { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
@@ -455,35 +456,35 @@
   <script>
   // ── Lista de productos ────────────────────────────────────────────────────
   var PRODUCTOS = [
-    { id: 'multiuso',            nombre: 'Limpiador Multiuso' },
+    { id: 'multiuso',            nombre: 'Limpiador Multiuso',         sizes: [{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
     { id: 'limpiavidrios',       nombre: 'Limpia Vidrios' },
     { id: 'lavandina',           nombre: 'Lavandina' },
-    { id: 'desinfectante',       nombre: 'Limpiador Líquido' },
+    { id: 'desinfectante',       nombre: 'Limpiador Líquido',          sizes: [{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
     { id: 'cremoso',             nombre: 'Limpiador Cremoso' },
-    { id: 'alcohol-gel',         nombre: 'Alcohol en Gel' },
+    { id: 'alcohol-gel',         nombre: 'Alcohol en Gel',             sizes: [{label:'1L',key:'1L'},{label:'5L',key:'5L'}] },
     { id: 'desodorante',         nombre: 'Desodorante Bactericida' },
     { id: 'jabon-manos',         nombre: 'Shampoo para Manos' },
     { id: 'rejillas',            nombre: 'Rejillas' },
     { id: 'jabon-ropa',          nombre: 'Jabón Líquido' },
-    { id: 'ideal',               nombre: 'Jabón p/Lavarropas Dúo' },
+    { id: 'ideal',               nombre: 'Jabón p/Lavarropas Dúo',     sizes: [{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
     { id: 'cera-pisos',          nombre: 'Cera al Agua' },
     { id: 'desengrasante',       nombre: 'Desengrasante' },
-    { id: 'alcohol',             nombre: 'Alcohol Líquido' },
-    { id: 'soda-caustica',       nombre: 'Soda Cáustica' },
+    { id: 'alcohol',             nombre: 'Alcohol Líquido',            sizes: [{label:'1L',key:'1L'},{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
+    { id: 'soda-caustica',       nombre: 'Soda Cáustica',              sizes: [{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
     { id: 'hipoclorito',         nombre: 'Hipoclorito de Sodio' },
-    { id: 'perfumador',          nombre: 'Perfumador' },
+    { id: 'perfumador',          nombre: 'Perfumador',                 sizes: [{label:'½L',key:'500ml'},{label:'1L',key:'1L'}] },
     { id: 'emulsion-neumaticos', nombre: 'Emulsión Neumáticos' },
     { id: 'emulsion-plasticos',  nombre: 'Emulsión Plásticos' },
-    { id: 'mulcit',              nombre: 'Limpiador Multiuso Cítrico' },
+    { id: 'mulcit',              nombre: 'Limpiador Multiuso Cítrico',  sizes: [{label:'5L',key:'5L'},{label:'10L',key:'10L'}] },
     { id: 'esencia',             nombre: 'Esencia Desodorante' },
-    { id: 'panos-de-piso',       nombre: 'Paños de Piso' },
+    { id: 'panos-de-piso',       nombre: 'Paños de Piso',              sizes: [{label:'6 unid.',key:'6u'},{label:'25 unid.',key:'25u'}] },
     { id: 'franelas',            nombre: 'Franelas' },
-    { id: 'jumbo-200',             nombre: 'Jumbo 200' },
-    { id: 'toalla-intercalada',   nombre: 'Toalla Intercalada 20x23' },
-    { id: 'servilleta-bocadillo', nombre: 'Servilleta de Bocadillo' },
-    { id: 'rollo-cocina',         nombre: 'Rollo Cocina 200 Hojas' },
-    { id: 'servilleta-mesa',      nombre: 'Servilleta de Mesa 30x29,5' },
-    { id: 'papel-higienico-dh',   nombre: 'Papel Higiénico Doble Hoja' },
+    { id: 'jumbo-200',           nombre: 'Jumbo 200' },
+    { id: 'toalla-intercalada',  nombre: 'Toalla Intercalada 20x23' },
+    { id: 'servilleta-bocadillo',nombre: 'Servilleta de Bocadillo' },
+    { id: 'rollo-cocina',        nombre: 'Rollo Cocina 200 Hojas' },
+    { id: 'servilleta-mesa',     nombre: 'Servilleta de Mesa 30x29,5' },
+    { id: 'papel-higienico-dh',  nombre: 'Papel Higiénico Doble Hoja' },
     { id: 'papel-higienico-jumbo',nombre: 'Papel Higiénico Jumbo 500' }
   ];
 
@@ -556,13 +557,26 @@
     var tbody = document.getElementById('prices-tbody');
     tbody.innerHTML = '';
     PRODUCTOS.forEach(function(p) {
-      var val = basePrices[p.id] !== undefined ? basePrices[p.id] : '';
-      var tr  = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + escHtml(p.nombre) + '</td>' +
-        '<td><input type="number" class="price-input" data-id="' + p.id + '"' +
-        ' value="' + val + '" min="0" step="1" placeholder="—" /></td>';
-      tbody.appendChild(tr);
+      if (p.sizes) {
+        p.sizes.forEach(function(s) {
+          var key = p.id + '_' + s.key;
+          var val = basePrices[key] !== undefined ? basePrices[key] : '';
+          var tr  = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + escHtml(p.nombre) + ' <span class="size-badge">' + escHtml(s.label) + '</span></td>' +
+            '<td><input type="number" class="price-input" data-id="' + key + '"' +
+            ' value="' + val + '" min="0" step="1" placeholder="—" /></td>';
+          tbody.appendChild(tr);
+        });
+      } else {
+        var val = basePrices[p.id] !== undefined ? basePrices[p.id] : '';
+        var tr  = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + escHtml(p.nombre) + '</td>' +
+          '<td><input type="number" class="price-input" data-id="' + p.id + '"' +
+          ' value="' + val + '" min="0" step="1" placeholder="—" /></td>';
+        tbody.appendChild(tr);
+      }
     });
   }
 
@@ -687,15 +701,30 @@
     var tbody = document.getElementById('client-prices-tbody');
     tbody.innerHTML = '';
     PRODUCTOS.forEach(function(p) {
-      var base = basePrices[p.id] !== undefined ? '$' + basePrices[p.id] : '—';
-      var val  = clientPrices[p.id] !== undefined ? clientPrices[p.id] : '';
-      var tr   = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + escHtml(p.nombre) + '</td>' +
-        '<td class="cell-base">' + base + '</td>' +
-        '<td><input type="number" class="client-price-input" data-id="' + p.id + '"' +
-        ' value="' + val + '" min="0" step="1" placeholder="Precio base" /></td>';
-      tbody.appendChild(tr);
+      if (p.sizes) {
+        p.sizes.forEach(function(s) {
+          var key  = p.id + '_' + s.key;
+          var base = basePrices[key] !== undefined ? '$' + basePrices[key] : '—';
+          var val  = clientPrices[key] !== undefined ? clientPrices[key] : '';
+          var tr   = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + escHtml(p.nombre) + ' <span class="size-badge">' + escHtml(s.label) + '</span></td>' +
+            '<td class="cell-base">' + base + '</td>' +
+            '<td><input type="number" class="client-price-input" data-id="' + key + '"' +
+            ' value="' + val + '" min="0" step="1" placeholder="Precio base" /></td>';
+          tbody.appendChild(tr);
+        });
+      } else {
+        var base = basePrices[p.id] !== undefined ? '$' + basePrices[p.id] : '—';
+        var val  = clientPrices[p.id] !== undefined ? clientPrices[p.id] : '';
+        var tr   = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + escHtml(p.nombre) + '</td>' +
+          '<td class="cell-base">' + base + '</td>' +
+          '<td><input type="number" class="client-price-input" data-id="' + p.id + '"' +
+          ' value="' + val + '" min="0" step="1" placeholder="Precio base" /></td>';
+        tbody.appendChild(tr);
+      }
     });
   }
 

@@ -653,6 +653,37 @@ section { padding: 80px 24px; }
 }
 .product-card-price:empty { display: none; }
 
+/* ── Size selector (products with two or more sizes) ── */
+.size-selector {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.size-btn {
+  background: var(--gray-light);
+  border: 1.5px solid #D4D4D8;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #52525B;
+  transition: border-color .15s, background .15s, color .15s;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.size-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: #FFF5F5;
+}
+.size-btn.active {
+  border-color: var(--red);
+  background: var(--red);
+  color: #fff;
+}
+
 .hidden { display: none !important; }
 
 /* ============================================================
