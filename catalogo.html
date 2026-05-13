@@ -101,7 +101,7 @@
 
         <!-- Banner cliente personalizado (oculto por defecto) -->
         <div id="cliente-banner" style="display:none; margin: -40px -24px 32px; padding: 11px 24px;">
-          <div>Catálogo personalizado para <strong id="cliente-banner-nombre"></strong> · Los precios mostrados son los acordados con Doña Sol.</div>
+          <div>Catálogo personalizado para <strong id="cliente-banner-nombre"></strong></div>
         </div>
 
         <!-- Volver al inicio (solo en catálogo normal) -->
@@ -676,7 +676,7 @@
     ];
 
     function formatPrecio(n) {
-      return '$ ' + Number(n).toLocaleString('es-UY');
+      return '$ ' + Math.round(Number(n)).toLocaleString('es-UY');
     }
 
     db.collection('clientes').doc(clienteSlug).get()
