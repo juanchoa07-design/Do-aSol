@@ -386,6 +386,50 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   });
 })();
 
+// ── Motion (Framer Motion vanilla) ───────────────────────────
+(function () {
+  if (!window.Motion) return;
+  const { animate, hover, inView, stagger } = window.Motion;
+
+  document.body.classList.add('motion-ready');
+
+  const cards = [...document.querySelectorAll('.product-card')];
+  const grid  = document.getElementById('products-grid');
+
+  // Tomar control de la entrada: quitar clases CSS reveal
+  cards.forEach(card => {
+    card.classList.remove('reveal', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4');
+    card.style.opacity  = '0';
+    card.style.transform = 'translateY(28px)';
+  });
+
+  // Entrada con stagger al hacer scroll hasta la grilla
+  let entered = false;
+  inView(grid || cards[0], () => {
+    if (entered) return;
+    entered = true;
+    const visible = cards.filter(c => !c.classList.contains('hidden'));
+    animate(visible,
+      { opacity: 1, y: 0 },
+      { delay: stagger(0.065), duration: 0.5, easing: [0.22, 1, 0.36, 1] }
+    );
+  });
+
+  // Spring hover en cada tarjeta
+  cards.forEach(card => {
+    hover(card, () => {
+      animate(card,
+        { y: -8, scale: 1.025 },
+        { duration: 0.35, easing: [0.34, 1.56, 0.64, 1] }
+      );
+      return () => animate(card,
+        { y: 0, scale: 1 },
+        { duration: 0.25, easing: [0.25, 0.46, 0.45, 0.94] }
+      );
+    });
+  });
+})();
+
 // ── Contact form → WhatsApp ───────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();

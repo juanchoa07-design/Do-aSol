@@ -1548,3 +1548,9 @@ footer {
 }
 .pmodal-btn-cart:hover  { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(198,40,40,0.50); }
 .pmodal-btn-cart:active { transform: translateY(0); }
+
+/* Motion spring hover — deshabilita el transform CSS para no chocar */
+.motion-ready .product-card:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+}
