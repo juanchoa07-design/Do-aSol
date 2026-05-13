@@ -9,7 +9,10 @@
       "Bash(Select-Object FullName, Attributes)",
       "Bash(Sort-Object FullName)",
       "Bash(Format-Table -AutoSize -Wrap)",
-      "Bash(dir \"c:\\\\Users\\\\juanc\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Do-aSol\\\\Fotos Dona sol\" /B /O:D)"
+      "Bash(dir \"c:\\\\Users\\\\juanc\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Do-aSol\\\\Fotos Dona sol\" /B /O:D)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
