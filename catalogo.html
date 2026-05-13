@@ -37,6 +37,22 @@
   <!-- OVERLAY -->
   <div id="overlay"></div>
 
+  <!-- CART -->
+  <div id="cart-overlay-panel"></div>
+  <aside id="cart-panel">
+    <div class="cart-panel-header">
+      <h2>🛒 Tu carrito</h2>
+      <button id="cart-close" class="cart-close-btn" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <div id="cart-items-list">
+      <p class="cart-empty">Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-panel-footer">
+      <button id="btn-cart-clear" class="btn-cart-clear" style="display:none">Vaciar carrito</button>
+      <a id="btn-cart-order" href="#" target="_blank" class="btn-cart-order" style="display:none">💬 Realizar pedido por WhatsApp</a>
+    </div>
+  </aside>
+
   <!-- SIDEBAR -->
   <aside id="sidebar" role="navigation" aria-label="Menú principal">
     <div class="sidebar-header">
@@ -69,7 +85,13 @@
     <div class="header-logo">
       <img src="Fotos%20Dona%20sol/Logo.JPG" alt="Doña Sol" class="header-logo-img" />
     </div>
-    <a href="./index.html#contacto" class="header-cta">Consultar</a>
+    <div class="header-right">
+      <button id="btn-cart" class="btn-cart" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="cart-badge" class="cart-badge" style="display:none">0</span>
+      </button>
+      <a href="./index.html#contacto" class="header-cta">Consultar</a>
+    </div>
   </header>
 
   <main>
@@ -566,6 +588,7 @@
         <h2 id="pmodal-name"></h2>
         <p id="pmodal-desc"></p>
         <span id="pmodal-volume" class="product-card-volume" style="display:none;"></span>
+        <button id="pmodal-add-cart" class="pmodal-btn-cart">🛒 Agregar al carrito</button>
         <a id="pmodal-wa" href="#" target="_blank" class="pmodal-btn-wa">
           💬 Consultar por WhatsApp
         </a>
