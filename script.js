@@ -234,7 +234,6 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
       cart[id] = { name, qty: 1, price: price || '' };
     }
     render();
-    openCart();
   };
 
   window.cartChangeQty = function(id, delta) {

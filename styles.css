@@ -1194,7 +1194,7 @@ footer {
 
   /* Header */
   .header-logo-img { height: 50px; }
-  .header-cta { padding: 7px 13px; font-size: 0.82rem; }
+  .header-cta { display: none; }
 
   /* Catalog hero */
   .catalog-hero { margin-bottom: 18px; }
