@@ -109,7 +109,8 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   });
 
   if (addCartBtn) {
-    addCartBtn.addEventListener('click', () => {
+    addCartBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const id    = addCartBtn.dataset.id;
       const name  = addCartBtn.dataset.name;
       const price = addCartBtn.dataset.price;
@@ -135,35 +136,95 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   if (!btnCart || !dropdown) return;
 
   let cart = {};
+  const cardControls = {};
 
-  function openCart()  { dropdown.classList.add('open'); }
-  function closeCart() { dropdown.classList.remove('open'); }
+  function openCart()   { dropdown.classList.add('open'); }
+  function closeCart()  { dropdown.classList.remove('open'); }
   function toggleCart() { dropdown.classList.toggle('open'); }
 
   btnCart.addEventListener('click', e => { e.stopPropagation(); toggleCart(); });
   ddClose.addEventListener('click', closeCart);
+
+  // Use composedPath so qty-btn clicks inside cart don't re-trigger close
+  // (innerHTML replacement detaches the target before bubbling reaches document)
   document.addEventListener('click', e => {
-    if (!dropdown.contains(e.target) && e.target !== btnCart) closeCart();
+    if (!dropdown.classList.contains('open')) return;
+    const path = e.composedPath ? e.composedPath() : [];
+    if (!path.includes(dropdown) && !path.includes(btnCart)) closeCart();
   });
 
-  // Inject "+" buttons on every product card
+  // Inject add-btn + qty-ctrl on every product card
   document.querySelectorAll('.product-card').forEach(card => {
-    const footer = card.querySelector('.product-card-footer');
-    if (!footer) return;
-    const btn = document.createElement('button');
-    btn.className = 'product-card-add-btn';
-    btn.title = 'Agregar al carrito';
-    btn.innerHTML = '+';
-    btn.addEventListener('click', e => {
+    const footer  = card.querySelector('.product-card-footer');
+    const nameEl  = card.querySelector('.product-card-name');
+    if (!footer || !nameEl) return;
+
+    const name = nameEl.textContent.trim();
+    const id   = card.dataset.id || name.toLowerCase().replace(/\s+/g, '-');
+
+    // Round "+" add button (visible when qty = 0)
+    const addBtn = document.createElement('button');
+    addBtn.className = 'product-card-add-btn';
+    addBtn.setAttribute('aria-label', 'Agregar al carrito');
+    addBtn.textContent = '+';
+
+    // Pill qty control (visible when qty > 0)
+    const ctrl   = document.createElement('div');
+    ctrl.className = 'card-qty-ctrl';
+
+    const minBtn = document.createElement('button');
+    minBtn.className = 'card-qty-ctrl-btn';
+    minBtn.setAttribute('aria-label', 'Quitar uno');
+    minBtn.textContent = '−';
+
+    const numEl = document.createElement('span');
+    numEl.className = 'card-qty-ctrl-num';
+    numEl.textContent = '0';
+
+    const plusBtn = document.createElement('button');
+    plusBtn.className = 'card-qty-ctrl-btn';
+    plusBtn.setAttribute('aria-label', 'Agregar uno más');
+    plusBtn.textContent = '+';
+
+    ctrl.append(minBtn, numEl, plusBtn);
+    footer.append(addBtn, ctrl);
+    cardControls[id] = { addBtn, ctrl, numEl };
+
+    addBtn.addEventListener('click', e => {
       e.stopPropagation();
-      const name    = card.querySelector('.product-card-name').textContent.trim();
-      const id      = card.dataset.id || name.toLowerCase().replace(/\s+/g, '-');
       const priceEl = card.querySelector('.product-card-price');
-      const price   = priceEl ? priceEl.textContent.trim() : '';
-      window.cartAdd(id, name, price);
+      window.cartAdd(id, name, priceEl ? priceEl.textContent.trim() : '');
     });
-    footer.appendChild(btn);
+
+    plusBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (cart[id]) {
+        window.cartChangeQty(id, 1);
+      } else {
+        const priceEl = card.querySelector('.product-card-price');
+        window.cartAdd(id, name, priceEl ? priceEl.textContent.trim() : '');
+      }
+    });
+
+    minBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      window.cartChangeQty(id, -1);
+    });
   });
+
+  function syncCardControls() {
+    Object.entries(cardControls).forEach(([id, { addBtn, ctrl, numEl }]) => {
+      const qty = cart[id] ? cart[id].qty : 0;
+      if (qty > 0) {
+        addBtn.style.display = 'none';
+        ctrl.style.display   = 'flex';
+        numEl.textContent    = qty;
+      } else {
+        addBtn.style.display = '';
+        ctrl.style.display   = 'none';
+      }
+    });
+  }
 
   window.cartAdd = function(id, name, price) {
     if (!id || !name) return;
@@ -214,11 +275,12 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     if (!ids.length) {
       cartList.innerHTML = '<p class="cart-empty">Tu carrito está vacío.</p>';
+      syncCardControls();
       return;
     }
 
     cartList.innerHTML = ids.map(id => {
-      const item = cart[id];
+      const item      = cart[id];
       const priceHtml = item.price
         ? `<span class="cart-item-price">${item.price} c/u</span>` : '';
       return `<div class="cart-item">
@@ -236,6 +298,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     }).join('');
 
     btnOrder.href = `https://wa.me/59892747716?text=${encodeURIComponent(buildMessage())}`;
+    syncCardControls();
   }
 
   render();
