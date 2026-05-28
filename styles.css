@@ -593,9 +593,12 @@ section { padding: 80px 24px; }
 .product-card:hover .product-card-img img {
   transform: scale(1.05);
 }
-[data-id="suavizante"] .product-card-img img {
-  padding: 12px;
-  object-fit: contain;
+[data-id="suavizante"] .product-card-img img,
+[data-id="espuma-controlada"] .product-card-img img {
+  padding: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 .product-card-img::after {
   content: '';
