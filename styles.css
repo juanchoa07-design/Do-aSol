@@ -595,6 +595,7 @@ section { padding: 80px 24px; }
 }
 [data-id="suavizante"] .product-card-img img {
   padding: 0;
+  object-fit: cover;
 }
 .product-card-img::after {
   content: '';
