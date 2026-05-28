@@ -594,8 +594,8 @@ section { padding: 80px 24px; }
   transform: scale(1.05);
 }
 [data-id="suavizante"] .product-card-img img {
-  padding: 0;
-  object-fit: cover;
+  padding: 12px;
+  object-fit: contain;
 }
 .product-card-img::after {
   content: '';
