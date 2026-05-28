@@ -554,8 +554,8 @@ section { padding: 80px 24px; }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
 }
 
 .product-card {
@@ -574,7 +574,7 @@ section { padding: 80px 24px; }
 }
 .product-card-img {
   background: var(--white);
-  height: 160px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
