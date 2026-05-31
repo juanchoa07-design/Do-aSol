@@ -601,7 +601,7 @@ section { padding: 80px 24px; }
   height: 100%;
 }
 [data-id="espuma-controlada"] .product-card-img img {
-  object-position: center 5%;
+  object-position: center top;
 }
 .product-card-img::after {
   content: '';
