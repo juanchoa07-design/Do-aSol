@@ -460,11 +460,22 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     });
   }
 
+  function parseImageMap(attr) {
+    var map = {};
+    attr.split(',').forEach(function(part) {
+      var idx = part.indexOf(':');
+      if (idx >= 0) map[part.slice(0, idx)] = part.slice(idx + 1);
+    });
+    return map;
+  }
+
   document.querySelectorAll('.product-card[data-sizes]').forEach(function(card) {
-    var sizes   = parseSizes(card.dataset.sizes);
-    var id      = card.dataset.id;
-    var footer  = card.querySelector('.product-card-footer');
-    var volEl   = card.querySelector('.product-card-volume');
+    var sizes     = parseSizes(card.dataset.sizes);
+    var id        = card.dataset.id;
+    var footer    = card.querySelector('.product-card-footer');
+    var volEl     = card.querySelector('.product-card-volume');
+    var imgEl     = card.querySelector('.product-card-img img');
+    var colorMap  = card.dataset.colorImages ? parseImageMap(card.dataset.colorImages) : null;
     if (!footer) return;
 
     // Hide the old volume text – size buttons take its role
@@ -486,6 +497,12 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         btn.classList.add('active');
         card.dataset.selectedSize      = s.key;
         card.dataset.selectedSizeLabel = s.label;
+
+        // Swap the product photo for color/style variants
+        if (colorMap && imgEl && colorMap[s.key]) {
+          imgEl.src = colorMap[s.key];
+          imgEl.alt = card.querySelector('.product-card-name').textContent.trim() + ' - ' + s.label;
+        }
 
         // Update displayed price
         if (window.preciosActuales) {
