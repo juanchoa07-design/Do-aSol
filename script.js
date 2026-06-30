@@ -49,6 +49,31 @@ window.addEventListener('scroll', () => {
   setActiveLink();
 });
 
+// ── Animated heading text (letters cascade in) ──────────────────
+(function () {
+  function wrapLetters(node, counter) {
+    Array.from(node.childNodes).forEach(function(child) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        var frag = document.createDocumentFragment();
+        child.textContent.split('').forEach(function(ch) {
+          var span = document.createElement('span');
+          span.className = 'char-anim';
+          span.style.setProperty('--char-i', counter.i++);
+          span.textContent = ch === ' ' ? ' ' : ch;
+          frag.appendChild(span);
+        });
+        node.replaceChild(frag, child);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        wrapLetters(child, counter);
+      }
+    });
+  }
+
+  document.querySelectorAll('.section-title').forEach(function(title) {
+    wrapLetters(title, { i: 0 });
+  });
+})();
+
 // ── Scroll reveal animations ──────────────────────────────────
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -460,22 +485,11 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     });
   }
 
-  function parseImageMap(attr) {
-    var map = {};
-    attr.split(',').forEach(function(part) {
-      var idx = part.indexOf(':');
-      if (idx >= 0) map[part.slice(0, idx)] = part.slice(idx + 1);
-    });
-    return map;
-  }
-
   document.querySelectorAll('.product-card[data-sizes]').forEach(function(card) {
-    var sizes     = parseSizes(card.dataset.sizes);
-    var id        = card.dataset.id;
-    var footer    = card.querySelector('.product-card-footer');
-    var volEl     = card.querySelector('.product-card-volume');
-    var imgEl     = card.querySelector('.product-card-img img');
-    var colorMap  = card.dataset.colorImages ? parseImageMap(card.dataset.colorImages) : null;
+    var sizes   = parseSizes(card.dataset.sizes);
+    var id      = card.dataset.id;
+    var footer  = card.querySelector('.product-card-footer');
+    var volEl   = card.querySelector('.product-card-volume');
     if (!footer) return;
 
     // Hide the old volume text – size buttons take its role
@@ -497,12 +511,6 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         btn.classList.add('active');
         card.dataset.selectedSize      = s.key;
         card.dataset.selectedSizeLabel = s.label;
-
-        // Swap the product photo for color/style variants
-        if (colorMap && imgEl && colorMap[s.key]) {
-          imgEl.src = colorMap[s.key];
-          imgEl.alt = card.querySelector('.product-card-name').textContent.trim() + ' - ' + s.label;
-        }
 
         // Update displayed price
         if (window.preciosActuales) {

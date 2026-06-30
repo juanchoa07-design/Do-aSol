@@ -461,6 +461,9 @@ section { padding: 80px 24px; }
   letter-spacing: 1.2px;
   text-transform: uppercase;
   margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: labelIn .5s cubic-bezier(.22,1,.36,1) forwards;
 }
 .section-label::before {
   content: '';
@@ -482,6 +485,35 @@ section { padding: 80px 24px; }
   line-height: 1.75;
   max-width: 560px;
   margin-top: 12px;
+  opacity: 0;
+  animation: descIn .6s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay: .5s;
+}
+
+/* ── Animated heading: letters cascade in on load ── */
+.char-anim {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  animation: charIn .6s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay: calc(var(--char-i, 0) * 26ms + 120ms);
+}
+@keyframes charIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes labelIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes descIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .char-anim, .section-label, .section-desc {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ============================================================
