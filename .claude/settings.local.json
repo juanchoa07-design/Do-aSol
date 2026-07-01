@@ -12,7 +12,17 @@
       "Bash(dir \"c:\\\\Users\\\\juanc\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Do-aSol\\\\Fotos Dona sol\" /B /O:D)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(/c/Users/juanc/.claude/skills/gstack/browse/dist/browse reload *)",
+      "Bash(/c/Users/juanc/.claude/skills/gstack/browse/dist/browse status *)",
+      "Bash(/c/Users/juanc/.claude/skills/gstack/browse/dist/browse is *)",
+      "Bash(grep -oP '\\(?<=data-id=\"\\)[^\"]+' index.html)",
+      "Bash(grep -oP '\\(?<=data-id=\"\\)[^\"]+' catalogo.html)",
+      "Bash(python3 --version)",
+      "Bash(python --version)",
+      "Bash(node --version)",
+      "Bash(python3)",
+      "Bash(/c/Users/juanc/.claude/skills/gstack/browse/dist/browse network *)"
     ]
   }
 }
